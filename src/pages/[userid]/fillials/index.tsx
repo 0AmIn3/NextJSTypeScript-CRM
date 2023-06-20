@@ -25,7 +25,7 @@ const index: React.FC<indexProps> = ({ Company, fillials }) => {
     (item) => item.CompanyID === Company.id
   );
 
-  const [testArr, settestArr] = useState<any>(CompanyFillials.reverse());
+  const [testArr, settestArr] = useState<any>(CompanyFillials.reverse() || []);
   const subArrays = [];
   const [From, setFrom] = useState<number>(0);
 

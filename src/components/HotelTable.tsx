@@ -23,7 +23,7 @@ const HotelTable: React.FC<HotelTableProps> = ({
   
 }) => {
   const router = useRouter();
-  const HotelKey = Object.keys(hotels)[Object.values(arr).indexOf(hotel)];
+  const HotelKey = Object.keys(hotels).reverse()[Object.values(arr).indexOf(hotel)];
   return (
     <tr
       onDoubleClick={() => {

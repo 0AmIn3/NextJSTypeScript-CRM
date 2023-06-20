@@ -20,7 +20,7 @@ const FillialTable: React.FC<FillialTableProps> = ({
   arr,
 }) => {
   const router = useRouter();
-  const FilialKey = Object.keys(fillials)[Object.values(arr).indexOf(filial)];
+  const FilialKey = Object.keys(fillials).reverse()[Object.values(arr).indexOf(filial)];
   return (
     <tr
       onDoubleClick={() => {

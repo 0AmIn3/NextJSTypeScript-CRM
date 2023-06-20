@@ -44,7 +44,7 @@ const ClientTable: React.FC<ClientTableProps> = ({
 
 
   const router = useRouter();
-  const clientKey = Object.keys(clients)[Object.values(arr).indexOf(item)];
+  const clientKey = Object.keys(clients).reverse()[Object.values(arr).indexOf(item)];
   function calculateAge(birthDate: string) {
     const birthDateObj = new Date(birthDate);
     const now = new Date();

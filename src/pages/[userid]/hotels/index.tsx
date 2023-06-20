@@ -11,17 +11,23 @@ export const getServerSideProps = async ({ query }) => {
   const response2 = await fetch(
     `https://srm-nextjs-default-rtdb.europe-west1.firebasedatabase.app/hotels.json`
   );
+  const response3 = await fetch(
+    `http://battuta.medunes.net/api/country/all/?key={00000000000000000000000000000000}`
+  );
   const data = await response.json();
   const hotelsData = await response2.json();
+  const countries = await response3.json();
 
   return {
-    props: { Company: data, hotels: hotelsData },
+    props: { Company: data, hotels: hotelsData ,countries:countries},
   };
 };
-const index: React.FC<indexProps> = ({ Company, hotels }) => {
+const index: React.FC<indexProps> = ({ Company, hotels ,countries}) => {
+  console.log(countries);
+  
   const CompanyHotels = Object.values(hotels).filter(
     (item) => item.CompanyID === Company.id
-  );
+  ) || [];
 
   const [testArr, settestArr] = useState<any>(CompanyHotels.reverse());
   const subArrays = [];
