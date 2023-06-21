@@ -5,7 +5,7 @@ import { BiMenuAltRight } from "react-icons/bi";
 import { FiBook } from "react-icons/fi";
 
 interface indexProps {}
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async ({ query } : any) => {
   const response = await fetch(
     `https://srm-nextjs-default-rtdb.europe-west1.firebasedatabase.app/Admin/${query.userid}.json`
   );
@@ -20,9 +20,9 @@ export const getServerSideProps = async ({ query }) => {
     props: { Company: data, fillials: fillialsData },
   };
 };
-const index: React.FC<indexProps> = ({ Company, fillials }) => {
+const index: React.FC<indexProps> = ({ Company, fillials } : any) => {
   const CompanyFillials = Object.values(fillials).filter(
-    (item) => item.CompanyID === Company.id
+    (item : any) => item.CompanyID === Company.id
   );
 
   const [testArr, settestArr] = useState<any>(CompanyFillials.reverse() || []);

@@ -9,7 +9,7 @@ interface HotelTableProps {
   Phone: string;
   hotels: object;
   hotel: object;
-  arr: Array<object>;
+  arr: any;
 }
 
 const HotelTable: React.FC<HotelTableProps> = ({

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { deleteCompanyAPI, getCompanyAPI, pathCompanyAPI, postCompanyAPI } from "./thunk";
+import { deleteCompanyAPI, getCompanyAPI, pathCompanyAPI, postCompanyAPI } from "./thunk.ts";
 
 const initialState = {
   data: [],

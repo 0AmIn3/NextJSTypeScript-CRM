@@ -1,7 +1,11 @@
 import axios from "axios";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, AsyncThunkAction } from "@reduxjs/toolkit";
 
-export const getCompanyAPI = createAsyncThunk("/getCompanyAPI", async () => {
+interface ThunkIF {
+  data?: any
+  userKey?: any
+}
+export const getCompanyAPI : any = createAsyncThunk<any,any,any>("/getCompanyAPI", async () => {
   const res = await axios.get(
     "https://srm-nextjs-default-rtdb.europe-west1.firebasedatabase.app/Admin.json"
   );
@@ -10,7 +14,7 @@ export const getCompanyAPI = createAsyncThunk("/getCompanyAPI", async () => {
     userKey: res.data,
   };
 });
-export const postCompanyAPI = createAsyncThunk(
+export const postCompanyAPI = createAsyncThunk<any,any,any>(
   "/postCompanyAPI",
   async (data) => {
     const res = await axios.post(
@@ -21,7 +25,7 @@ export const postCompanyAPI = createAsyncThunk(
     return res.data;
   }
 );
-export const deleteCompanyAPI = createAsyncThunk(
+export const deleteCompanyAPI : any = createAsyncThunk<any,any,any>(
   "/deleteCompanyAPI",
   async (data) => {
     await axios.delete(
@@ -33,7 +37,7 @@ export const deleteCompanyAPI = createAsyncThunk(
     return res.data;
   }
 );
-export const pathCompanyAPI = createAsyncThunk(
+export const pathCompanyAPI : any = createAsyncThunk<any,any,any>(
   "/pathCompanyAPI",
   async (data) => {
     await axios.patch(
@@ -52,7 +56,7 @@ export const pathCompanyAPI = createAsyncThunk(
 );
 
 
-export const getClientsAPI = createAsyncThunk(
+export const getClientsAPI: any = createAsyncThunk<any,any,any>(
   "clients/getClientsAPI",
   async () => {
     const res = await axios.get(
@@ -65,7 +69,7 @@ export const getClientsAPI = createAsyncThunk(
   }
 );
 
-export const postClientsAPI = createAsyncThunk(
+export const postClientsAPI: any = createAsyncThunk<any,any,any>(
   "clients/postClientsAPI",
   async (data) => {
     const res = await axios.post(
@@ -77,7 +81,7 @@ export const postClientsAPI = createAsyncThunk(
   }
 );
 
-export const pathClientsAPI = createAsyncThunk(
+export const pathClientsAPI: any = createAsyncThunk<ThunkIF, any, any>(
   "clients/pathClientsAPI",
   async (data) => {
     await axios.patch(
@@ -95,7 +99,7 @@ export const pathClientsAPI = createAsyncThunk(
   }
 );
 
-export const putClientsAPI = createAsyncThunk(
+export const putClientsAPI: any = createAsyncThunk<any,any,any>(
   "clients/putClientsAPI",
   async (dat) => {
     await axios.put(
@@ -114,7 +118,7 @@ export const putClientsAPI = createAsyncThunk(
 );
 
 
-export const getHotelsAPI = createAsyncThunk(
+export const getHotelsAPI: any = createAsyncThunk<any,any,any>(
   "hotels/getHotelsAPI",
   async () => {
     const res = await axios.get(
@@ -127,7 +131,7 @@ export const getHotelsAPI = createAsyncThunk(
   }
 );
 
-export const postHotelsAPI = createAsyncThunk(
+export const postHotelsAPI: any = createAsyncThunk<any,any,any>(
   "hotels/postHotelsAPI",
   async (data) => {
     const res = await axios.post(
@@ -139,7 +143,7 @@ export const postHotelsAPI = createAsyncThunk(
   }
 );
 
-export const pathHotelsAPI = createAsyncThunk(
+export const pathHotelsAPI: any = createAsyncThunk<any,any,any>(
   "hotels/pathHotelsAPI",
   async (data) => {
     await axios.patch(
@@ -157,7 +161,7 @@ export const pathHotelsAPI = createAsyncThunk(
   }
 );
 
-export const putHotelsAPI = createAsyncThunk(
+export const putHotelsAPI: any = createAsyncThunk<any,any,any>(
   "hotels/putHotelsAPI",
   async (dat) => {
     await axios.put(
@@ -176,7 +180,7 @@ export const putHotelsAPI = createAsyncThunk(
 );
 
 
-export const getFilialsAPI = createAsyncThunk(
+export const getFilialsAPI: any = createAsyncThunk<any,any,any>(
   "filials/getFilialsAPI",
   async () => {
     const res = await axios.get(
@@ -189,7 +193,7 @@ export const getFilialsAPI = createAsyncThunk(
   }
 );
 
-export const postFilialsAPI = createAsyncThunk(
+export const postFilialsAPI: any = createAsyncThunk<any,any,any>(
   "filials/postFilialsAPI",
   async (data) => {
     const res = await axios.post(
@@ -201,7 +205,7 @@ export const postFilialsAPI = createAsyncThunk(
   }
 );
 
-export const pathFilialsAPI = createAsyncThunk(
+export const pathFilialsAPI : any = createAsyncThunk<any,any,any>(
   "filials/pathFilialsAPI",
   async (data) => {
     await axios.patch(
@@ -219,7 +223,7 @@ export const pathFilialsAPI = createAsyncThunk(
   }
 );
 
-export const putFilialsAPI = createAsyncThunk(
+export const putFilialsAPI: any = createAsyncThunk<any,any,any>(
   "filials/putFilialsAPI",
   async (dat) => {
     await axios.put(

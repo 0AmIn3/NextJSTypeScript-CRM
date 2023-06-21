@@ -21,13 +21,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   // const [loading, setLoading] = useState<boolean>(true); // Добавьте состояние загрузки
 
   const router = useRouter();
-  const company = useSelector((state) => state.company.userKey);
-  const companyStatus = useSelector((state) => state.company.status);
-  const clients = useSelector((state) => state.clients.data);
+  const company = useSelector((state: any) => state.company.userKey);
+  const companyStatus = useSelector((state: any) => state.company.status);
+  const clients = useSelector((state : any) => state.clients.data);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    
       if (!company.length) {
          dispatch(getCompanyAPI());
       }

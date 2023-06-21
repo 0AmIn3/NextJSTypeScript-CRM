@@ -3,7 +3,9 @@ import { GiAirplaneArrival, GiAirplaneDeparture } from "react-icons/gi";
 import TropItem from "./TropItem";
 
 interface TropMainProps {
-  obj: object;
+  obj: any;
+  arr: any
+  clients: any
 }
 
 const TropMain: React.FC<TropMainProps> = ({ obj , arr , clients }) => {
@@ -16,7 +18,7 @@ const TropMain: React.FC<TropMainProps> = ({ obj , arr , clients }) => {
         </span>
       </div>
       <div className="w-full px-2 flex  flex-col gap-4 mt-4">
-        {obj.arr.map((item, idx) => (
+        {obj.arr.map((item:any, idx:any) => (
           <TropItem item={item} key={idx} arr={arr}
           clients={clients} />
         ))}

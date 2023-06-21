@@ -7,7 +7,7 @@ import { SlArrowLeft } from "react-icons/sl";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 interface indexProps {}
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async ({ query }: any) => {
   const response = await fetch(
     `https://srm-nextjs-default-rtdb.europe-west1.firebasedatabase.app/Admin/${query.userid}.json`
   );
@@ -32,14 +32,14 @@ const index: React.FC<indexProps> = ({
   Company,
   fillials,
   hotels,
-}) => {
+}: any) => {
   const CompanyHotels = Object.values(hotels).filter(
-    (item) => item.CompanyID === Company.id
+    (item: any) => item.CompanyID === Company.id
   );
   const CompanyFillials = Object.values(fillials).filter(
-    (item) => item.CompanyID === Company.id
+    (item: any) => item.CompanyID === Company.id
   );
-  const logClient = useSelector((state) => state.clients.status);
+  const logClient = useSelector((state: any) => state.clients.status);
 
   const dispatch = useDispatch();
   const router = useRouter();

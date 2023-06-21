@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
 
 const inter = Inter({ subsets: ["latin"] });
-export default function Home({ contacts }) {
+export default function Home({ contacts }: { contacts: any }) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -17,12 +17,12 @@ export default function Home({ contacts }) {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm<onSubmitProps>();
   interface onSubmitProps {
     email: string;
     password: string;
   }
-  const onSubmit: React.FC<onSubmitProps> = ({ email, password }) => {
+  const onSubmit: SubmitHandler<onSubmitProps> = ({ email, password }) => {
     setLoading(true);
     const user = [
       ...Object.values(contacts).filter((i: any) => i.email == email),

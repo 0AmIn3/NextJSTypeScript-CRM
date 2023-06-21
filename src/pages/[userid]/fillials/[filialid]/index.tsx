@@ -7,7 +7,7 @@ import { SlArrowLeft } from "react-icons/sl";
 import { useDispatch, useSelector } from "react-redux";
 
 interface indexProps {}
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async ({ query }: any) => {
   const response = await fetch(
     `https://srm-nextjs-default-rtdb.europe-west1.firebasedatabase.app/Admin/${query.userid}.json`
   );
@@ -24,10 +24,10 @@ export const getServerSideProps = async ({ query }) => {
     },
   };
 };
-const index: React.FC<indexProps> = ({ Company, filial }) => {
+const index: React.FC<indexProps> = ({ Company, filial }: any) => {
   console.log(Company, filial);
 
-  const logfilial = useSelector((state) => state.hotels.status);
+  const logfilial = useSelector((state: any) => state.hotels.status);
 
   const dispatch = useDispatch();
   const router = useRouter();

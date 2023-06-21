@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { getHotelsAPI, pathHotelsAPI, postHotelsAPI, putHotelsAPI } from "../thunk";
+import { getHotelsAPI, pathHotelsAPI, postHotelsAPI, putHotelsAPI } from "../thunk.ts";
 
 
 const initialState = {

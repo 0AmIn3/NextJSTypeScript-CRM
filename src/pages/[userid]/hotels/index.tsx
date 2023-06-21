@@ -2,8 +2,14 @@ import HotelTable from "@/components/HotelTable";
 import React, { useEffect, useState } from "react";
 import { FiBook } from "react-icons/fi";
 
-interface indexProps {}
-export const getServerSideProps = async ({ query }) => {
+interface indexProps {
+  hotels: object
+  Company: object
+}
+interface getServerSidePropsProps {
+  query:object
+}
+export const getServerSideProps = async ({ query } :any) => {
   const response = await fetch(
     `https://srm-nextjs-default-rtdb.europe-west1.firebasedatabase.app/Admin/${query.userid}.json`
   );
@@ -11,22 +17,18 @@ export const getServerSideProps = async ({ query }) => {
   const response2 = await fetch(
     `https://srm-nextjs-default-rtdb.europe-west1.firebasedatabase.app/hotels.json`
   );
-  const response3 = await fetch(
-    `http://battuta.medunes.net/api/country/all/?key={00000000000000000000000000000000}`
-  );
+
   const data = await response.json();
   const hotelsData = await response2.json();
-  const countries = await response3.json();
 
   return {
-    props: { Company: data, hotels: hotelsData ,countries:countries},
+    props: { Company: data, hotels: hotelsData },
   };
 };
-const index: React.FC<indexProps> = ({ Company, hotels ,countries}) => {
-  console.log(countries);
+const index: React.FC<indexProps> = ({ Company, hotels }:any) => {
   
   const CompanyHotels = Object.values(hotels).filter(
-    (item) => item.CompanyID === Company.id
+    (item : any) => item.CompanyID === Company.id
   ) || [];
 
   const [testArr, settestArr] = useState<any>(CompanyHotels.reverse());

@@ -8,7 +8,7 @@ interface FillialTableProps {
   Phone: string;
   fillials: Array<object>;
   filial: object;
-  arr: Array<object>;
+  arr:  any;
 }
 
 const FillialTable: React.FC<FillialTableProps> = ({

@@ -11,7 +11,7 @@ interface indexProps {
   Company: object;
   clients: Array<object>;
 }
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async ({ query }: any) => {
   const response = await fetch(
     `https://srm-nextjs-default-rtdb.europe-west1.firebasedatabase.app/Admin/${query.userid}.json`
   );
@@ -26,7 +26,7 @@ export const getServerSideProps = async ({ query }) => {
     props: { Company: data, clients: usersData },
   };
 };
-const index: React.FC<indexProps> = ({ Company, clients }) => {
+const index: React.FC<indexProps> = ({ Company, clients }: any) => {
   // console.log(Company, clients);
 
   const CompanyClients = Object.values(clients).filter(
@@ -36,7 +36,7 @@ const index: React.FC<indexProps> = ({ Company, clients }) => {
   const subArrays = [];
   const [From, setFrom] = useState<number>(0);
   const [Format, setFormat] = useState<boolean>(true);
-  const [UniqStatus, setUniqStatus] = useState<Array<object>>(
+  const [UniqStatus, setUniqStatus] = useState<any>(
     CompanyClients || []
   );
 
@@ -57,7 +57,7 @@ const index: React.FC<indexProps> = ({ Company, clients }) => {
 
     const sortedData: SortedItem[] = statuses.map((status) => ({
       name: status,
-      arr: data.filter((item) => item.status === status),
+      arr: data.filter((item: any) => item.status === status),
     }));
 
     return sortedData;
@@ -71,7 +71,7 @@ const index: React.FC<indexProps> = ({ Company, clients }) => {
       arr: testArr.slice(i, i + 4),
     });
   }
-  function changeActive(num) {
+  function changeActive(num: number) {
     let paginations = document.querySelectorAll(".pagination");
     paginations.forEach((item) => {
       item.classList.remove("activePrevNextBtn");

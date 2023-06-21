@@ -1,10 +1,32 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { GiAirplaneArrival, GiAirplaneDeparture } from "react-icons/gi";
+interface ClientTableProps {
+  id: string;
+  name: string;
+  age: string;
+  city: string;
+  ChangeStatus: string;
+  DateOfApplication: string;
+  GoFrom: string;
+  GoTo: string;
+  DateGoFrom: string;
+  DateGoTo: string;
+  email: string;
+  Hotel: string;
+  Fillial: string;
+  Phone: string;
 
-interface TropItemProps {}
+}
+interface TropItemProps {
+  item:ClientTableProps ;
+  arr: Array<object>
+  clients: object
+}
 
 const TropItem: React.FC<TropItemProps> = ({ item, arr, clients }) => {
+
+  
     const router = useRouter();
     const clientKey = Object.keys(clients).reverse()[Object.values(arr).indexOf(item)];
  

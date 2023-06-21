@@ -5,7 +5,7 @@ import {
   pathClientsAPI,
   postClientsAPI,
   putClientsAPI,
-} from "../thunk";
+} from "../thunk.ts";
 
 const initialState = {
   data: [],
