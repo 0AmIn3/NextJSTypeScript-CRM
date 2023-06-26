@@ -18,6 +18,7 @@ const Header: React.FC<HeaderProps> = ({ ChangeAnim, setChangeAnim }) => {
     } else if (router.pathname.split("/")[2] == "hotels") {
       setName("отель");
     } else if (router.pathname.split("/")[2] == "clients") {
+      
       setName("клиента");
     }
   });

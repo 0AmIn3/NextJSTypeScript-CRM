@@ -47,7 +47,6 @@ const index: React.FC<indexProps> = ({
   );
   const logClient = useSelector((state: any) => state.clients.status);
 
-  // console.log(clients);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -83,7 +82,6 @@ const index: React.FC<indexProps> = ({
     return newDate;
   }
 
-  // console.log(addDaysToDate("2023-06-22", 9));
   const onSubmit = (data: any) => {
     let hotel: any = Object.values(hotels)
       .filter((item: any) => item.CompanyID == Company.id)

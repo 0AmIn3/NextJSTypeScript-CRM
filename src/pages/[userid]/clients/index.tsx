@@ -7,6 +7,9 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { BiMenuAltRight } from "react-icons/bi";
 import { FiBook } from "react-icons/fi";
+import { DragDropContext, Draggale, Droppable } from "react-beautiful-dnd";
+import { pathClientsAPI, pathCompanyAPI } from "@/features/thunk";
+import { useDispatch } from "react-redux";
 
 interface indexProps {
   Company: object;
@@ -28,8 +31,8 @@ export const getServerSideProps = async ({ query }: any) => {
   };
 };
 const index: React.FC<indexProps> = ({ Company, clients }: any) => {
-  // console.log(Company, clients);
-
+  const dispatch = useDispatch();
+  const router = useRouter();
   const CompanyClients = Object.values(clients).filter(
     (item: any) => item.CompanyID === Company.id
   );
@@ -45,7 +48,15 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
     }
   }, []);
   const [UniqStatus, setUniqStatus] = useState<any>(CompanyClients || []);
+  const [UniqArr, setUniqArr] = useState<any>([]);
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
 
+    return `${year}-${month}-${day}`;
+  }
   interface SortedItem {
     name: string;
     arr: typeof UniqStatus;
@@ -53,7 +64,7 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
 
   const sortDataByStatus = (data: typeof UniqStatus): SortedItem[] => {
     const statuses = [
-      "Новое обращение",
+      "Новое",
       "Запрос отправлен",
       "В процессе",
       "Забронировал",
@@ -62,14 +73,36 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
     ];
 
     const sortedData: SortedItem[] = statuses.map((status) => ({
+      id: `${Math.round(Math.random() * 1000)}`,
       name: status,
       arr: data.filter((item: any) => item.status === status),
     }));
 
     return sortedData;
   };
-  // console.log(sortDataByStatus(UniqStatus));
-
+  function FixHistory(arr: any) {
+    let cop = [...arr];
+    for (let i of cop) {
+      if (!i.arr) i.arr = [];
+    }
+    return cop;
+  }
+  function isDatePassed(dateString:string) {
+    // Разбираем строку даты и создаем объект Date
+    const date = new Date(dateString);
+  
+    // Получаем текущую дату
+    const currentDate = new Date();
+  
+    // Сравниваем дату с текущей датой
+    if (date < currentDate) {
+      // Дата уже прошла
+      return true;
+    } else {
+      // Дата еще не прошла
+      return false;
+    }
+  }
   for (let i = 0; i < testArr.length; i += 4) {
     subArrays.push({
       from: i,
@@ -85,6 +118,71 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
     paginations[num].classList.add("activePrevNextBtn");
   }
 
+  const onDragEnd = (result: any) => {
+    if (!result.destination) return;
+    const { source, destination } = result;
+
+    if (source.droppableId !== destination.droppableId) {
+      const sourceColIndex = UniqArr.findIndex(
+        (e: any) => e.id === source.droppableId
+      );
+      const destinationColIndex = UniqArr.findIndex(
+        (e: any) => e.id === destination.droppableId
+      );
+
+      const sourceCol = UniqArr[sourceColIndex];
+      const destinationCol = UniqArr[destinationColIndex];
+
+      const sourceTask = [...sourceCol.arr];
+      const destinationTask = [...destinationCol.arr];
+
+      const [removed] = sourceTask.splice(source.index, 1);
+      destinationTask.splice(destination.index, 0, removed);
+      UniqArr[sourceColIndex].arr = sourceTask;
+      UniqArr[destinationColIndex].arr = destinationTask;
+      setUniqArr(UniqArr);
+      let chStatus = {
+        ...destinationTask[0],
+        status: UniqArr[destinationColIndex].name,
+        ChangeStatus:getCurrentDate()
+      };
+
+      const clientKey =
+        Object.keys(clients).reverse()[
+          Object.values(testArr).indexOf(
+            testArr.filter((i:any) => i.id == destinationTask[0].id)[0]
+          )
+        ];
+
+      let cop = [...testArr];
+      cop.splice(
+        testArr.indexOf(
+          testArr.filter((i:any) => i.id == destinationTask[0].id)[0]
+        ),
+        1,
+        chStatus
+      );
+      settestArr([...cop]);
+      dispatch(
+        pathClientsAPI({
+          key: clientKey,
+          obj: {
+            ...chStatus,
+          },
+        })
+      );
+      dispatch(
+        pathCompanyAPI({
+          key: router.query.userid,
+          obj: {
+            ...Company,
+            DrangHistory: UniqArr,
+          },
+        })
+      );
+    }
+  };
+
   if (CompanyClients.length === 0) {
     return (
       <>
@@ -98,23 +196,34 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
             </p>
           </div>
         </div>
-        <div className="flex w-full h-full  py-4 px-10 bg-[#F1F2F4]  justify-center">
+        <div className="flex w-full h-[100vh]   py-4 px-10 bg-[#F1F2F4]  justify-center">
           <p className=" mt-[200px] text-3xl font-semibold">Добавьте Клиента</p>
         </div>
       </>
     );
   } else {
     useEffect(() => {
+      let cop = [...UniqStatus]
+      for(let i of cop){
+        if(isDatePassed(i.arriveDay)){
+          i.status = 'Прибыл'
+        }
+      }
+
+
       changeActive(From);
-      // localStorage.setItem("aa", JSON.stringify(sortDataByStatus(UniqStatus)))
-    // localStorage.setItem('bb' , JSON.stringify(testArr))
+      if (!Company.DrangHistory) {
+        setUniqArr(sortDataByStatus(UniqStatus));
+      } else {
+        setUniqArr(FixHistory(Company.DrangHistory));
+      }
 
+      setUniqArr(sortDataByStatus(cop));
     }, [From]);
-
 
     return (
       <>
-        <div className="w-full pt-5 pb-4 px-10 bg-white">
+        <div className="w-full pt-5 max-h-[90%] pb-4 px-10 bg-white">
           <div className="flex items-center gap-16">
             <h1 className=" text-3xl font-semibold">Клиенты</h1>
             <div className="flex gap-5">
@@ -201,81 +310,88 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
             </div>
           </div>
         </div>
-        <div className="flex w-full h-full  py-4 px-10 bg-[#F1F2F4]  flex-col overflow-x-scroll overflow-hidden">
+
+        <DragDropContext onDragEnd={onDragEnd}>
           {Format ? (
-            <div className="grid grid-cols-6 h-[full] max-h-[80%] py-4 select-none  gap-4">
-              {sortDataByStatus(UniqStatus).map((item, idx) => (
-                <TropMain
-                  obj={item}
-                  key={idx}
-                  clients={clients}
-                  arr={testArr}
-                />
+            <div className="grid grid-cols-6 h-[100vh] bg-[#F1F2F4] max-h-[90%] py-4 select-none  gap-4">
+              {UniqArr.map((item: any, idx: any) => (
+                <Droppable key={item.id} droppableId={item.id}>
+                  {(provided: any) => (
+                    <TropMain
+                      obj={item}
+                      pro={provided}
+                      clients={clients}
+                      arr={testArr}
+                    />
+                  )}
+                </Droppable>
               ))}
             </div>
           ) : (
-            <table className=" w-full ">
-              <thead className=" border-b-[1px] border-[#a4a4a4] border-solid">
-                <tr className="w-full">
-                  <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start ">
-                    Клиент
-                  </th>
-                  <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                    Статус
-                  </th>
-                  <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                    Дата обращения
-                  </th>
-                  <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                    Цена
-                  </th>
-                  <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                    Вылет
-                  </th>
-                  <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                    Страна посещения
-                  </th>
+            <div className="flex w-full h-[100vh]  py-4 px-10 bg-[#F1F2F4]  flex-col overflow-x-scroll overflow-hidden">
+              <table className=" w-full ">
+                <thead className=" border-b-[1px] border-[#a4a4a4] border-solid">
+                  <tr className="w-full">
+                    <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start ">
+                      Клиент
+                    </th>
+                    <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
+                      Статус
+                    </th>
+                    <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
+                      Дата обращения
+                    </th>
+                    <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
+                      Цена
+                    </th>
+                    <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
+                      Вылет
+                    </th>
+                    <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
+                      Страна посещения
+                    </th>
 
-                  <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                    Почта
-                  </th>
-                  <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                    Отель
-                  </th>
-                  <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                    Филлиал
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {subArrays[From].arr.map((item: any, idx: number) => (
-                  <ClientTable
-                    clients={clients}
-                    arr={testArr}
-                    item={item}
-                    name={item.name}
-                    birthDate={item.age}
-                    status={item.status}
-                    ChangeStatus={item.ChangeStatus}
-                    DateOfApplication={item.DateOfApplication}
-                    priceForCompany={item.priceForCompany}
-                    priceForHotels={item.priceForHotels}
-                    GoFrom={item.GoFrom}
-                    GoTo={item.GoTo}
-                    DateGoFrom={item.DateGoFrom}
-                    DateGoTo={item.DateGoTo}
-                    email={item.email}
-                    Hotel={item.Hotel}
-                    Fillial={item.Fillial}
-                    Phone={item.Phone}
-                    id={item.id}
-                    key={idx}
-                  />
-                ))}
-              </tbody>
-            </table>
+                    <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
+                      Почта
+                    </th>
+                    <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
+                      Отель
+                    </th>
+                    <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
+                      Филлиал
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {subArrays[From].arr.map((item: any, idx: number) => (
+                    <ClientTable
+                      clients={clients}
+                      arr={testArr}
+                      item={item}
+                      name={item.name}
+                      birthDate={item.age}
+                      status={item.status}
+                      ChangeStatus={item.ChangeStatus}
+                      DateOfApplication={item.DateOfApplication}
+                      priceForCompany={item.priceForCompany}
+                      priceForHotels={item.priceForHotels}
+                      GoFrom={item.GoFrom}
+                      GoTo={item.GoTo}
+                      DateGoFrom={item.DateGoFrom}
+                      DateGoTo={item.DateGoTo}
+                      email={item.email}
+                      Hotel={item.Hotel}
+                      Fillial={item.Fillial}
+                      Phone={item.Phone}
+                      id={item.id}
+                      key={idx}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
-        </div>
+        </DragDropContext>
       </>
     );
   }

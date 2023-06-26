@@ -26,7 +26,6 @@ export const getServerSideProps = async ({ query } : any) => {
   };
 };
 const index: React.FC<indexProps> = ({ Company, hotel } : any) => {
-  console.log(Company, hotel);
 
   const logHotel = useSelector((state : any) => state.hotels.status);
 

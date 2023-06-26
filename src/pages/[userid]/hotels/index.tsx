@@ -49,9 +49,29 @@ function changeActive(num:number){
     })
     paginations[num].classList.add('activePrevNextBtn')
 }
-useEffect(()=>{
-  changeActive(0)
-})
+
+if (CompanyHotels.length === 0) {
+  return (
+    <>
+      <div className="w-full  pt-5 pb-4 px-10 bg-white">
+        <div className="flex items-center gap-16">
+          <h1 className=" text-3xl font-semibold">Отели</h1>
+        </div>
+        <div className=" mt-4 flex justify-between items-center">
+          <p className=" text-sm font-normal text-[#838383]">
+            Home / Level 2 / Level 3 / Отели
+          </p>
+        </div>
+      </div>
+      <div className="flex w-full h-[100vh]   py-4 px-10 bg-[#F1F2F4]  justify-center">
+        <p className=" mt-[200px] text-3xl font-semibold">Добавьте Отель</p>
+      </div>
+    </>
+  );
+}else{
+  useEffect(()=>{
+    changeActive(0)
+  })
   return (
     <>
       <div className="w-full pt-5 pb-4 px-10 bg-white">
@@ -104,7 +124,7 @@ useEffect(()=>{
           </div>
         </div>
       </div>
-      <div className="flex w-full h-full px-10 bg-[#F1F2F4]  flex-col overflow-x-scroll overflow-hidden">
+      <div className="flex w-full h-[100vh] px-10 bg-[#F1F2F4]  flex-col overflow-x-scroll overflow-hidden">
         <table className=" w-full ">
           <thead className=" border-b-[1px] border-[#a4a4a4] border-solid">
             <tr className="w-full">
@@ -140,6 +160,8 @@ useEffect(()=>{
       </div>
     </>
   );
+}
+
 };
 
 export default index;

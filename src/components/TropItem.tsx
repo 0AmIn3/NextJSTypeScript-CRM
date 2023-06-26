@@ -16,21 +16,22 @@ interface ClientTableProps {
   Hotel: string;
   Fillial: string;
   Phone: string;
-
 }
 interface TropItemProps {
-  item:ClientTableProps ;
-  arr: Array<object>
-  clients: object
+  item: ClientTableProps;
+  arr: Array<object>;
+  clients: object;
+  droppableId?: number;
+  index?: number;
+  prov?: any;
+  snap?: any;
 }
 
-const TropItem: React.FC<TropItemProps> = ({ item, arr, clients }) => {
+const TropItem: React.FC<TropItemProps> = ({ item, arr, clients, prov , snap }) => {
+  const router = useRouter();
+  const clientKey =
+    Object.keys(clients).reverse()[Object.values(arr).indexOf(item)];
 
-  
-    const router = useRouter();
-    const clientKey = Object.keys(clients).reverse()[Object.values(arr).indexOf(item)];
- 
-    
   function calculateAge(birthDate: string) {
     const birthDateObj = new Date(birthDate);
     const now = new Date();
@@ -58,12 +59,23 @@ const TropItem: React.FC<TropItemProps> = ({ item, arr, clients }) => {
   }
   return (
     <>
-      <div onDoubleClick={()=>{
-       router.push(router.asPath + "/" + clientKey);
-      }}  className="flex  cursor-pointer flex-col px-4 py-3 bg-[#F1F2F4] ">
+      <div
+        ref={prov.innerRef}
+        {...prov.draggableProps}
+        {...prov.dragHandleProps}
+        style={{
+          ...prov.draggableProps.style,
+          opacity: snap.isDragging ? '0.5' : '1'
+        }}
+        onDoubleClick={() => {
+          router.push(router.asPath + "/" + clientKey);
+        }}
+        className="flex cursor-pointer flex-col px-4 py-3 bg-[#F1F2F4] "
+      >
         <h1 className=" text-sm font-medium text-[#333333]">{item.name}</h1>
         <p className=" mt-2 text-xs font-medium text-[#909090]">
-          {calculateAge(item.age)} лет, {item.city}, {item.Fillial}, {item.Hotel}
+          {calculateAge(item.age)} лет, {item.city}, {item.Fillial},{" "}
+          {item.Hotel}
         </p>
         <div className=" mt-4 flex flex-col gap-5">
           <div className="flex flex-col gap-2">
