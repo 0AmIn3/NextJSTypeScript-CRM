@@ -2,6 +2,7 @@ import ClientTable from "@/components/ClientTable";
 import TropMain from "@/components/TropMain";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { format } from "path";
 import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { BiMenuAltRight } from "react-icons/bi";
@@ -35,10 +36,15 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
   const [testArr, settestArr] = useState<any>(CompanyClients.reverse());
   const subArrays = [];
   const [From, setFrom] = useState<number>(0);
-  const [Format, setFormat] = useState<boolean>(true);
-  const [UniqStatus, setUniqStatus] = useState<any>(
-    CompanyClients || []
-  );
+  const [Format, setFormat] = useState<boolean>(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedFormat = window.localStorage.getItem("format");
+      const parsedFormat = storedFormat ? JSON.parse(storedFormat) : false;
+      setFormat(parsedFormat);
+    }
+  }, []);
+  const [UniqStatus, setUniqStatus] = useState<any>(CompanyClients || []);
 
   interface SortedItem {
     name: string;
@@ -100,7 +106,12 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
   } else {
     useEffect(() => {
       changeActive(From);
+      // localStorage.setItem("aa", JSON.stringify(sortDataByStatus(UniqStatus)))
+    // localStorage.setItem('bb' , JSON.stringify(testArr))
+
     }, [From]);
+
+
     return (
       <>
         <div className="w-full pt-5 pb-4 px-10 bg-white">
@@ -113,6 +124,7 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
                   <AiOutlineMenu
                     onClick={() => {
                       setFormat(false);
+                      localStorage.setItem("format", "false");
                     }}
                     className="text-black text-xl cursor-pointer"
                   />
@@ -122,6 +134,7 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
                   <BiMenuAltRight
                     onClick={() => {
                       setFormat(true);
+                      localStorage.setItem("format", "true");
                     }}
                     className="text-black text-xl cursor-pointer -rotate-90"
                   />
@@ -134,7 +147,10 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
             <p className=" text-sm font-normal text-[#838383]">
               Home / Level 2 / Level 3 / клиенты
             </p>
-            <div className="flex gap-7 items-center">
+            <div
+              className="flex gap-7 items-center "
+              style={Format ? { opacity: 0, cursor: "default" } : {}}
+            >
               <p className="text-sm font-normal text-[#838383]">
                 {subArrays[From].from + 1} -{" "}
                 {subArrays[From].to + subArrays[From].from} из{" "}
@@ -148,7 +164,8 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
                       changeActive(From - 1);
                     }
                   }}
-                  className="px-[11px] select-none cursor-pointer py-[9px] text-[#838383] border border-solid border-[#DEE2E6]"
+                  className="px-[11px] select-none  py-[9px] text-[#838383] border border-solid border-[#DEE2E6]"
+                  style={Format ? { cursor: "default" } : { cursor: "pointer" }}
                 >
                   Prev
                 </p>
@@ -159,7 +176,10 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
                       setFrom(idx);
                       changeActive(idx);
                     }}
-                    className="px-[11px] pagination select-none cursor-pointer py-[9px]  border border-solid border-[#DEE2E6]"
+                    className="px-[11px] pagination select-none  py-[9px]  border border-solid border-[#DEE2E6]"
+                    style={
+                      Format ? { cursor: "default" } : { cursor: "pointer" }
+                    }
                   >
                     {idx + 1}
                   </div>
@@ -172,7 +192,8 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
                       changeActive(From + 1);
                     }
                   }}
-                  className="px-[11px] cursor-pointer select-none py-[9px] text-[#838383] border border-solid border-[#DEE2E6]"
+                  className="px-[11px]  select-none py-[9px] text-[#838383] border border-solid border-[#DEE2E6]"
+                  style={Format ? { cursor: "default" } : { cursor: "pointer" }}
                 >
                   Next
                 </p>
@@ -182,7 +203,7 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
         </div>
         <div className="flex w-full h-full  py-4 px-10 bg-[#F1F2F4]  flex-col overflow-x-scroll overflow-hidden">
           {Format ? (
-            <div className="grid grid-cols-6 h-[full] max-h-[80%]  py-4   gap-4">
+            <div className="grid grid-cols-6 h-[full] max-h-[80%] py-4 select-none  gap-4">
               {sortDataByStatus(UniqStatus).map((item, idx) => (
                 <TropMain
                   obj={item}
@@ -204,6 +225,9 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
                   </th>
                   <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
                     Дата обращения
+                  </th>
+                  <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
+                    Цена
                   </th>
                   <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
                     Вылет
@@ -234,6 +258,8 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
                     status={item.status}
                     ChangeStatus={item.ChangeStatus}
                     DateOfApplication={item.DateOfApplication}
+                    priceForCompany={item.priceForCompany}
+                    priceForHotels={item.priceForHotels}
                     GoFrom={item.GoFrom}
                     GoTo={item.GoTo}
                     DateGoFrom={item.DateGoFrom}

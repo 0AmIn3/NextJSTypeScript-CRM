@@ -47,6 +47,8 @@ const index: React.FC<indexProps> = ({
   );
   const logClient = useSelector((state: any) => state.clients.status);
 
+  // console.log(clients);
+
   const dispatch = useDispatch();
   const router = useRouter();
   const {
@@ -55,28 +57,67 @@ const index: React.FC<indexProps> = ({
     watch,
     formState: { errors },
   } = useForm();
+  const watchDateGoFrom = watch("DateGoFrom");
+  const watchDateGoTo = watch("DateGoTo");
+  const prosent = 0.05;
   function getCurrentDate() {
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-  
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
     return `${year}-${month}-${day}`;
   }
+  const validateDays = (value: string | number) => {
+    return +value >= 1;
+  };
+  function addDaysToDate(startDate: string, daysToAdd: number) {
+    const date = new Date(startDate);
+    date.setDate(date.getDate() + Number(daysToAdd));
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    const newDate = `${year}-${month}-${day}`;
+    return newDate;
+  }
+
+  // console.log(addDaysToDate("2023-06-22", 9));
   const onSubmit = (data: any) => {
+    let hotel: any = Object.values(hotels)
+      .filter((item: any) => item.CompanyID == Company.id)
+      .filter((item: any) => item.name == data.Hotel)[0];
+    let cop = {
+      ...data,
+      days: Number(data.days),
+      ChangeStatus: getCurrentDate(),
+      priceForHotels:
+        Number(hotel.Price) * data.days - hotel.Price * data.days * prosent,
+      priceForCompany: Number(hotel.Price) * data.days * prosent,
+    };
+
+    if (
+      !clients.arriveDay ||
+      clients.arriveDay == "" ||
+      data.days !== clients.days ||
+      data.DateGoTo !== clients.DateGoTo
+    ) {
+      cop = {
+        ...cop,
+        arriveDay: addDaysToDate(data.DateGoTo, data.days),
+      };
+    }
     dispatch(
       pathClientsAPI({
         key: router.query.clientid,
-        obj: {
-          ...data,
-          ChangeStatus: getCurrentDate(),
-        }
+        obj: cop,
       })
     );
-    if(logClient){
+
+    if (logClient) {
       router.push(`/${router.query.userid}/clients`);
     }
-  
   };
 
   return (
@@ -97,7 +138,7 @@ const index: React.FC<indexProps> = ({
           </p>
         </div>
       </div>
-      <div className="flex w-full h-full py-9 px-10 bg-[#F1F2F4]  flex-col overflow-x-scroll overflow-hidden">
+      <div className="flex w-full h-full py-5 px-10 bg-[#F1F2F4]  flex-col overflow-x-scroll overflow-hidden">
         <div className="w-full p-8 h-[80%] mb-10 bg-white">
           <div className="">
             <form
@@ -170,13 +211,14 @@ const index: React.FC<indexProps> = ({
                       />
                     </label>
                   </div>
-                  <label htmlFor="name" className="w-full">
+                  <label htmlFor="status" className="w-full">
                     <p>Статус</p>
                     <select
-                      className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
+                      className="w-full px-4 py-3 mt-0 border border-[#D6D5D5] rounded"
                       {...register("status")}
                       defaultValue={clients.status}
                       required
+                      id="status"
                     >
                       <option value="Новое">Новое</option>
                       <option value="Запрос отправлен">Запрос отправлен</option>
@@ -222,10 +264,18 @@ const index: React.FC<indexProps> = ({
                         id="GoTo"
                         defaultValue={clients.GoTo}
                         required
-                        {...register("GoTo")}
+                        {...register("GoTo", {
+                          validate: {
+                            notSameAsGoFrom: (value) =>
+                              value !== watch("GoFrom"),
+                          },
+                        })}
                       />
                     </label>
                   </div>
+                  {errors.GoTo && (
+                    <p>Город посещения не может совпадать с городом вылета</p>
+                  )}
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="DateGoFrom" className="w-1/2">
                       <p>Дата вылета</p>
@@ -235,7 +285,7 @@ const index: React.FC<indexProps> = ({
                         id="DateGoFrom"
                         type="date"
                         defaultValue={clients.DateGoFrom}
-                        {...register("DateGoFrom")}
+                        {...register("DateGoFrom", { required: true })}
                       />
                     </label>
                     <label htmlFor="DateGoTo" className="w-1/2">
@@ -246,10 +296,17 @@ const index: React.FC<indexProps> = ({
                         type="date"
                         required
                         defaultValue={clients.DateGoTo}
-                        {...register("DateGoTo")}
+                        {...register("DateGoTo", {
+                          required: true,
+                          validate: (value) => value >= watchDateGoFrom,
+                        })}
                       />
                     </label>
                   </div>
+                  {errors.DateGoTo && (
+                    <p>Дата прилета не может быть меньше даты вылета</p>
+                  )}
+
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="Hotel" className="w-full">
                       <p>Отель</p>
@@ -265,7 +322,21 @@ const index: React.FC<indexProps> = ({
                         ))}
                       </select>
                     </label>
+                    <label htmlFor="days" className="w-full">
+                      <p>Количество дней</p>
+                      <input
+                        className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
+                        id="days"
+                        defaultValue={clients.days}
+                        required
+                        {...register("days", {
+                          required: true,
+                          validate: validateDays,
+                        })}
+                      />
+                    </label>
                   </div>
+                  {errors.days && <p>Введите число больше или равное 1</p>}
                 </div>
               </div>
               {/* <input {...register("exampleRequired", { required: true })} /> */}

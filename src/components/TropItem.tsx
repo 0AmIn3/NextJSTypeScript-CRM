@@ -63,7 +63,7 @@ const TropItem: React.FC<TropItemProps> = ({ item, arr, clients }) => {
       }}  className="flex  cursor-pointer flex-col px-4 py-3 bg-[#F1F2F4] ">
         <h1 className=" text-sm font-medium text-[#333333]">{item.name}</h1>
         <p className=" mt-2 text-xs font-medium text-[#909090]">
-          {calculateAge(item.age)} лет, {item.city}, {item.Fillial},{item.Hotel}
+          {calculateAge(item.age)} лет, {item.city}, {item.Fillial}, {item.Hotel}
         </p>
         <div className=" mt-4 flex flex-col gap-5">
           <div className="flex flex-col gap-2">

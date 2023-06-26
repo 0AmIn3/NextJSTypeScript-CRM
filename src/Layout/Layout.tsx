@@ -16,7 +16,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [bodyStyle, setbodyStyle] = useState<string>(
     "h-[100vh] w-full bg-black"
   );
-  const [ChangeAnim, setChangeAnim] = useState<boolean>(true);
+  const [ChangeAnim, setChangeAnim] = useState<boolean>(false);
 
   // const [loading, setLoading] = useState<boolean>(true); // Добавьте состояние загрузки
 

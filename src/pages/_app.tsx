@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import { store } from "../app/store";
 import { NextComponentType, NextPageContext } from "next";
 import { ReactNode } from "react";
-
 interface MyAppProps extends AppProps {
   Component: NextComponentType<NextPageContext, any, any> & {
     getLayout?: (page: ReactNode) => ReactNode;
@@ -14,11 +13,14 @@ interface MyAppProps extends AppProps {
 
 function App({ Component, pageProps }: MyAppProps) {
   const getLayout =
-    Component.getLayout || ((page: React.ReactNode) => <Layout Company="Example Company">{page}</Layout>);
+    Component.getLayout ||
+    ((page: React.ReactNode) => (
+      <Layout Company="Example Company">{page}</Layout>
+    ));
   return (
     <Provider store={store}>
-      {getLayout(<Component {...pageProps} />)}
+        {getLayout(<Component {...pageProps} />)}
     </Provider>
   );
 }
-export default App
+export default App;

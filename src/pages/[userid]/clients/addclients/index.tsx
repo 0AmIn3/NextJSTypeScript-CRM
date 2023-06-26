@@ -28,11 +28,7 @@ export const getServerSideProps = async ({ query }: any) => {
     },
   };
 };
-const index: React.FC<indexProps> = ({
-  Company,
-  fillials,
-  hotels,
-}: any) => {
+const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
   const CompanyHotels = Object.values(hotels).filter(
     (item: any) => item.CompanyID === Company.id
   );
@@ -40,39 +36,61 @@ const index: React.FC<indexProps> = ({
     (item: any) => item.CompanyID === Company.id
   );
   const logClient = useSelector((state: any) => state.clients.status);
-
-  const dispatch = useDispatch();
-  const router = useRouter();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-  console.log();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const prosent = 0.05;
+  const watchDateGoFrom = watch("DateGoFrom");
+
+
   function getCurrentDate() {
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-  
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
     return `${year}-${month}-${day}`;
   }
+  function addDaysToDate(startDate: string, daysToAdd: number) {
+    const date = new Date(startDate);
+    date.setDate(date.getDate() + Number(daysToAdd));
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    const newDate = `${year}-${month}-${day}`;
+    return newDate;
+  }
+  const validateDays = (value: string | number) => {
+    return +value >= 1;
+  };
   const onSubmit = (data: any) => {
-    dispatch(
-      postClientsAPI({
-        id: uuidv4(),
-        CompanyID: Company.id,
-        DateOfApplication: getCurrentDate(),
-        ChangeStatus:getCurrentDate(),
-       ...data
-      })
-    );
-    
-    if(logClient === "fulfilled"){
+    let hotel: any = Object.values(hotels)
+      .filter((item: any) => item.CompanyID == Company.id)
+      .filter((item: any) => item.name == data.Hotel)[0];
+    let cop = {
+      ...data,
+      id: uuidv4(),
+      CompanyID: Company.id,
+      DateOfApplication: getCurrentDate(),
+      ChangeStatus: getCurrentDate(),
+      priceForHotels:
+        Number(hotel.Price) * data.days - hotel.Price * data.days * prosent,
+      priceForCompany: Number(hotel.Price) * data.days * prosent,
+      arriveDay: addDaysToDate(data.DateGoTo, data.days),
+    };
+
+    dispatch(postClientsAPI(cop));
+
+    if (logClient === "fulfilled") {
       router.push(`/${router.query.userid}/clients`);
     }
-  
   };
 
   return (
@@ -209,7 +227,12 @@ const index: React.FC<indexProps> = ({
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="GoTo"
                         required
-                        {...register("GoTo")}
+                        {...register("GoTo", {
+                          validate: {
+                            notSameAsGoFrom: (value) =>
+                              value !== watch("GoFrom"),
+                          },
+                        })}
                       />
                     </label>
                   </div>
@@ -231,7 +254,10 @@ const index: React.FC<indexProps> = ({
                         id="DateGoTo"
                         type="date"
                         required
-                        {...register("DateGoTo")}
+                        {...register("DateGoTo", {
+                          required: true,
+                          validate: (value) => value >= watchDateGoFrom,
+                        })}
                       />
                     </label>
                   </div>
@@ -249,6 +275,20 @@ const index: React.FC<indexProps> = ({
                         ))}
                       </select>
                     </label>
+                    <label htmlFor="days" className="w-full">
+                      <p>Количество дней</p>
+                      <input
+                        className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
+                        id="days"
+                        required
+                        {...register("days", {
+                          required: true,
+                          validate: validateDays,
+                        })}
+                      />
+                    </label>
+                  {errors.days && <p>Введите число больше или равное 1</p>}
+
                   </div>
                 </div>
               </div>

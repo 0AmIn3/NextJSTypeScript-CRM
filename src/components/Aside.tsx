@@ -82,7 +82,7 @@ const Aside: React.FC<AsideProps> = ({ ChangeAnim, setChangeAnim }) => {
             }
           ></div>
         </div>
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <div className="flex gap-3 mt-[50px] ">
             <LuFilter   onClick={() => {
                 setChangeAnim(true);
@@ -97,7 +97,7 @@ const Aside: React.FC<AsideProps> = ({ ChangeAnim, setChangeAnim }) => {
           <div className={ChangeAnim ? "flex gap-3 mt-[40px]" : "hidden"}>
             Координатор
           </div>
-        </div>
+        </div> */}
       </div>
     </aside>
   );

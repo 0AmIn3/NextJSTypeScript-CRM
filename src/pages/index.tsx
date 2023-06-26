@@ -56,60 +56,63 @@ export default function Home({ contacts }: { contacts: any }) {
   };
 
   return (
-    <div className="login fixed top-1/2 left-1/2 overflow-hidden flex -translate-x-1/2 -translate-y-1/2  w-[780px] h-[580px] bg-white">
-      <div className="w-1/2 h-full bg-login-pattern"></div>
-      <div className="w-1/2 h-full  px-7 py-9">
-        <center>
-          <img src="/img/logo.svg" width="125px" alt="" />
-        </center>
-        <center className=" mt-4">
-          <h1 className=" text-2xl font-semibold">Log In to Admin Panel</h1>
-          <p className=" text-[#9FA2B4] text-sm font-normal mt-3">
-            Enter your phone number and password below
-          </p>
-        </center>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <label className=" mt-6" htmlFor="email">
-            <h1 className=" text-xs font-semibold text-[#101010]">
-              PHONE NUMBER
-            </h1>
-            <input
-              id="email"
-              className=""
-              placeholder="Enter your email"
-              {...register("email")}
-            />
-          </label>
-
-          <label className=" mt-6" htmlFor="password">
-            <h1 className=" text-xs font-semibold text-[#101010]">
-              PHONE NUMBER
-            </h1>
-            <input
-              id="password"
-              className=""
-              placeholder="Enter your password"
-              {...register("password")}
-            />
-          </label>
-
-          {errors.password && <span>This field is required</span>}
-
-          {error ? (
-            <p className=" text-red-600 text-center">
-              Неверные пароль или почта
+    <>
+      <div className="login fixed top-1/2 left-1/2 overflow-hidden flex -translate-x-1/2 -translate-y-1/2  w-[780px] h-[580px] bg-white">
+        <div className="w-1/2 h-full bg-login-pattern"></div>
+        <div className="w-1/2 h-full  px-7 py-9">
+          <center>
+            <img src="/img/logo.svg" width="125px" alt="" />
+          </center>
+          <center className=" mt-4">
+            <h1 className=" text-2xl font-semibold">Log In to Admin Panel</h1>
+            <p className=" text-[#9FA2B4] text-sm font-normal mt-3">
+              Enter your phone number and password below
             </p>
-          ) : null}
-          <button
-            className=" mt-6 rounded-lg w-full py-4 flex item-center justify-center text-center bg-black text-white gap-4"
-            type="submit"
-          >
-            {loading ? <div className="spinner"></div> : null}
-            Log In
-          </button>
-        </form>
+          </center>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <label className=" mt-6" htmlFor="email">
+              <h1 className=" text-xs font-semibold text-[#101010]">
+                PHONE NUMBER
+              </h1>
+              <input
+                id="email"
+                className=""
+                placeholder="Enter your email"
+                {...register("email")}
+              />
+            </label>
+
+            <label className=" mt-6" htmlFor="password">
+              <h1 className=" text-xs font-semibold text-[#101010]">
+                PHONE NUMBER
+              </h1>
+              <input
+                id="password"
+                className=""
+                placeholder="Enter your password"
+                {...register("password")}
+              />
+            </label>
+
+            {errors.password && <span>This field is required</span>}
+
+            {error ? (
+              <p className=" text-red-600 text-center">
+                Неверные пароль или почта
+              </p>
+            ) : null}
+            <button
+              className=" mt-6 rounded-lg w-full py-4 flex item-center justify-center text-center bg-black text-white gap-4"
+              type="submit"
+            >
+              {loading ? <div className="spinner"></div> : null}
+              Log In
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+      <div className="fixed top-0 left-0 h-full w-full bg-black -z-10"></div>
+    </>
   );
 }
 export const getStaticProps = async () => {

@@ -5,7 +5,7 @@ interface ThunkIF {
   data?: any
   userKey?: any
 }
-export const getCompanyAPI : any = createAsyncThunk<any,any,any>("/getCompanyAPI", async () => {
+export const getCompanyAPI : any = createAsyncThunk("/getCompanyAPI", async () => {
   const res = await axios.get(
     "https://srm-nextjs-default-rtdb.europe-west1.firebasedatabase.app/Admin.json"
   );
@@ -14,7 +14,7 @@ export const getCompanyAPI : any = createAsyncThunk<any,any,any>("/getCompanyAPI
     userKey: res.data,
   };
 });
-export const postCompanyAPI = createAsyncThunk<any,any,any>(
+export const postCompanyAPI = createAsyncThunk(
   "/postCompanyAPI",
   async (data) => {
     const res = await axios.post(
@@ -25,7 +25,7 @@ export const postCompanyAPI = createAsyncThunk<any,any,any>(
     return res.data;
   }
 );
-export const deleteCompanyAPI : any = createAsyncThunk<any,any,any>(
+export const deleteCompanyAPI : any = createAsyncThunk(
   "/deleteCompanyAPI",
   async (data) => {
     await axios.delete(
@@ -56,7 +56,7 @@ export const pathCompanyAPI : any = createAsyncThunk<any,any,any>(
 );
 
 
-export const getClientsAPI: any = createAsyncThunk<any,any,any>(
+export const getClientsAPI: any = createAsyncThunk(
   "clients/getClientsAPI",
   async () => {
     const res = await axios.get(
@@ -69,7 +69,7 @@ export const getClientsAPI: any = createAsyncThunk<any,any,any>(
   }
 );
 
-export const postClientsAPI: any = createAsyncThunk<any,any,any>(
+export const postClientsAPI: any = createAsyncThunk(
   "clients/postClientsAPI",
   async (data) => {
     const res = await axios.post(
@@ -81,7 +81,7 @@ export const postClientsAPI: any = createAsyncThunk<any,any,any>(
   }
 );
 
-export const pathClientsAPI: any = createAsyncThunk<ThunkIF, any, any>(
+export const pathClientsAPI: any = createAsyncThunk<any,any,any>(
   "clients/pathClientsAPI",
   async (data) => {
     await axios.patch(
@@ -99,7 +99,7 @@ export const pathClientsAPI: any = createAsyncThunk<ThunkIF, any, any>(
   }
 );
 
-export const putClientsAPI: any = createAsyncThunk<any,any,any>(
+export const putClientsAPI: any = createAsyncThunk(
   "clients/putClientsAPI",
   async (dat) => {
     await axios.put(
@@ -118,7 +118,7 @@ export const putClientsAPI: any = createAsyncThunk<any,any,any>(
 );
 
 
-export const getHotelsAPI: any = createAsyncThunk<any,any,any>(
+export const getHotelsAPI: any = createAsyncThunk(
   "hotels/getHotelsAPI",
   async () => {
     const res = await axios.get(
@@ -131,7 +131,7 @@ export const getHotelsAPI: any = createAsyncThunk<any,any,any>(
   }
 );
 
-export const postHotelsAPI: any = createAsyncThunk<any,any,any>(
+export const postHotelsAPI: any = createAsyncThunk(
   "hotels/postHotelsAPI",
   async (data) => {
     const res = await axios.post(
@@ -143,7 +143,7 @@ export const postHotelsAPI: any = createAsyncThunk<any,any,any>(
   }
 );
 
-export const pathHotelsAPI: any = createAsyncThunk<any,any,any>(
+export const pathHotelsAPI: any = createAsyncThunk <any,any,any>(
   "hotels/pathHotelsAPI",
   async (data) => {
     await axios.patch(
@@ -161,7 +161,7 @@ export const pathHotelsAPI: any = createAsyncThunk<any,any,any>(
   }
 );
 
-export const putHotelsAPI: any = createAsyncThunk<any,any,any>(
+export const putHotelsAPI: any = createAsyncThunk(
   "hotels/putHotelsAPI",
   async (dat) => {
     await axios.put(
@@ -180,7 +180,7 @@ export const putHotelsAPI: any = createAsyncThunk<any,any,any>(
 );
 
 
-export const getFilialsAPI: any = createAsyncThunk<any,any,any>(
+export const getFilialsAPI: any = createAsyncThunk(
   "filials/getFilialsAPI",
   async () => {
     const res = await axios.get(
@@ -193,7 +193,7 @@ export const getFilialsAPI: any = createAsyncThunk<any,any,any>(
   }
 );
 
-export const postFilialsAPI: any = createAsyncThunk<any,any,any>(
+export const postFilialsAPI: any = createAsyncThunk(
   "filials/postFilialsAPI",
   async (data) => {
     const res = await axios.post(
@@ -223,7 +223,7 @@ export const pathFilialsAPI : any = createAsyncThunk<any,any,any>(
   }
 );
 
-export const putFilialsAPI: any = createAsyncThunk<any,any,any>(
+export const putFilialsAPI: any = createAsyncThunk(
   "filials/putFilialsAPI",
   async (dat) => {
     await axios.put(

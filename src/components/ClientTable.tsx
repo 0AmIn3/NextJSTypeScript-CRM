@@ -20,6 +20,8 @@ interface ClientTableProps {
   Phone: string;
   arr: Array<Object>;
   clients: Object;
+  priceForCompany: number
+priceForHotels:number
 }
 
 const ClientTable: React.FC<ClientTableProps> = ({
@@ -40,11 +42,13 @@ const ClientTable: React.FC<ClientTableProps> = ({
   id,
   arr,
   clients,
+  priceForCompany,
+priceForHotels,
 }) => {
 
-
   const router = useRouter();
-  const clientKey = Object.keys(clients).reverse()[Object.values(arr).indexOf(item)];
+  const clientKey =
+    Object.keys(clients).reverse()[Object.values(arr).indexOf(item)];
   function calculateAge(birthDate: string) {
     const birthDateObj = new Date(birthDate);
     const now = new Date();
@@ -65,11 +69,15 @@ const ClientTable: React.FC<ClientTableProps> = ({
     return age;
   }
   function formatDate(dateString: string): string {
-    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+    const options: Intl.DateTimeFormatOptions = {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    };
     const date: Date = new Date(dateString);
-    return date.toLocaleDateString('ru-RU', options);
+    return date.toLocaleDateString("ru-RU", options);
   }
-  
+
   return (
     <tr
       onDoubleClick={() => {
@@ -82,7 +90,6 @@ const ClientTable: React.FC<ClientTableProps> = ({
         <div className="flex flex-col gap-[6px]">
           <p className=" text-[black] text-sm font-medium">{name}</p>
           <span className="text-sm font-medium text-[#909090]">
-            
             {calculateAge(birthDate.toString())} лет
           </span>
         </div>
@@ -91,7 +98,7 @@ const ClientTable: React.FC<ClientTableProps> = ({
         <div className="flex flex-col gap-[6px]">
           <p className=" text-[black] text-sm font-medium">{status}</p>
           <span className="text-sm font-medium text-[#909090]">
-           {formatDate(ChangeStatus)}
+            {formatDate(ChangeStatus)}
           </span>
         </div>
       </td>
@@ -100,6 +107,11 @@ const ClientTable: React.FC<ClientTableProps> = ({
           <p className=" text-[black] text-sm font-medium">
             {formatDate(DateOfApplication)}
           </p>
+        </div>
+      </td>
+      <td className="min-w-[200px] py-6">
+        <div className="flex flex-col gap-[6px]">
+          <p className=" text-[black] text-sm font-medium">{(priceForCompany + priceForHotels).toLocaleString()} сум</p>
         </div>
       </td>
       <td className="min-w-[200px] py-6">
@@ -114,7 +126,7 @@ const ClientTable: React.FC<ClientTableProps> = ({
         <div className="flex flex-col gap-[6px]">
           <p className=" text-[black] text-sm font-medium">{GoTo}</p>
           <span className="text-sm font-medium text-[#909090]">
-              {formatDate(DateGoTo)}
+            {formatDate(DateGoTo)}
           </span>
         </div>
       </td>
