@@ -203,17 +203,17 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
     );
   } else {
     useEffect(() => {
-      let cop = [...UniqStatus]
-      for(let i of cop){
-        if(isDatePassed(i.arriveDay)){
-          i.status = 'Прибыл'
-        }
-      }
+      // let cop = [...UniqStatus]
+      // for(let i of cop){
+      //   if(isDatePassed(i.arriveDay)){
+      //     i.status = 'Прибыл'
+      //   }
+      // }
 
 
       changeActive(From);
       if (!Company.DrangHistory) {
-        setUniqArr(sortDataByStatus(cop));
+        setUniqArr(sortDataByStatus(UniqStatus));
       } else {
         setUniqArr(FixHistory(Company.DrangHistory));
       }
