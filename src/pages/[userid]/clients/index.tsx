@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { BiMenuAltRight } from "react-icons/bi";
 import { FiBook } from "react-icons/fi";
-import { DragDropContext, Draggale, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { pathClientsAPI, pathCompanyAPI } from "@/features/thunk";
 import { useDispatch } from "react-redux";
 
@@ -213,12 +213,11 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
 
       changeActive(From);
       if (!Company.DrangHistory) {
-        setUniqArr(sortDataByStatus(UniqStatus));
+        setUniqArr(sortDataByStatus(cop));
       } else {
         setUniqArr(FixHistory(Company.DrangHistory));
       }
 
-      setUniqArr(sortDataByStatus(cop));
     }, [From]);
 
     return (
