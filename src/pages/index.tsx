@@ -56,7 +56,7 @@ export default function Home({ contacts }: { contacts: any }) {
           router.push(CompanyKey + "/clients");
         });
     }
-  };
+  };k
 
   return (
     <>

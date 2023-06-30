@@ -1,5 +1,6 @@
 import Aside from "@/components/Aside";
 import Header from "@/components/Header";
+import Loading from "@/components/Loading";
 import { getClientsAPI, getCompanyAPI } from "@/features/thunk";
 import i18n from "@/pages/i18n";
 import dynamic from "next/dynamic";
@@ -57,7 +58,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <>
-      {loading ? null : (
+      {loading ? <Loading/> : (
         <div className={bodyStyle}>
           {chnageLayout ? (
             <>
