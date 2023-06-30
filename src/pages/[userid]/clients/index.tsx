@@ -10,7 +10,7 @@ import { FiBook } from "react-icons/fi";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { pathClientsAPI, pathCompanyAPI } from "@/features/thunk";
 import { useDispatch } from "react-redux";
-
+import { withNamespaces } from "react-i18next";
 interface indexProps {
   Company: object;
   clients: Array<object>;
@@ -30,7 +30,8 @@ export const getServerSideProps = async ({ query }: any) => {
     props: { Company: data, clients: usersData },
   };
 };
-const index: React.FC<indexProps> = ({ Company, clients }: any) => {
+
+const index = ({ Company, clients, t }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const CompanyClients = Object.values(clients).filter(
@@ -87,13 +88,13 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
     }
     return cop;
   }
-  function isDatePassed(dateString:string) {
+  function isDatePassed(dateString: string) {
     // Разбираем строку даты и создаем объект Date
     const date = new Date(dateString);
-  
+
     // Получаем текущую дату
     const currentDate = new Date();
-  
+
     // Сравниваем дату с текущей датой
     if (date < currentDate) {
       // Дата уже прошла
@@ -144,20 +145,20 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
       let chStatus = {
         ...destinationTask[0],
         status: UniqArr[destinationColIndex].name,
-        ChangeStatus:getCurrentDate()
+        ChangeStatus: getCurrentDate(),
       };
 
       const clientKey =
         Object.keys(clients).reverse()[
           Object.values(testArr).indexOf(
-            testArr.filter((i:any) => i.id == destinationTask[0].id)[0]
+            testArr.filter((i: any) => i.id == destinationTask[0].id)[0]
           )
         ];
 
       let cop = [...testArr];
       cop.splice(
         testArr.indexOf(
-          testArr.filter((i:any) => i.id == destinationTask[0].id)[0]
+          testArr.filter((i: any) => i.id == destinationTask[0].id)[0]
         ),
         1,
         chStatus
@@ -188,16 +189,18 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
       <>
         <div className="w-full  pt-5 pb-4 px-10 bg-white">
           <div className="flex items-center gap-16">
-            <h1 className=" text-3xl font-semibold">Клиенты</h1>
+            <h1 className=" text-3xl font-semibold">{t("PageName1")}</h1>
           </div>
           <div className=" mt-4 flex justify-between items-center">
             <p className=" text-sm font-normal text-[#838383]">
-              Home / Level 2 / Level 3 / клиенты
+              Level 1 / Level 2 / Level 3
             </p>
           </div>
         </div>
         <div className="flex w-full h-[100vh]   py-4 px-10 bg-[#F1F2F4]  justify-center">
-          <p className=" mt-[200px] text-3xl font-semibold">Добавьте Клиента</p>
+          <p className=" mt-[200px] text-3xl font-semibold">
+            {t("HeaderAddclientsAq")}
+          </p>
         </div>
       </>
     );
@@ -210,50 +213,64 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
       //   }
       // }
 
-
       changeActive(From);
-      if (!Company.DrangHistory) {
-        setUniqArr(sortDataByStatus(UniqStatus));
-      } else {
-        setUniqArr(FixHistory(Company.DrangHistory));
-      }
-
+      // if (!Company.DrangHistory) {
+      //   setUniqArr(sortDataByStatus(UniqStatus));
+      // } else {
+      //   setUniqArr(FixHistory(Company.DrangHistory));
+      // }
+      setUniqArr(sortDataByStatus(UniqStatus));
     }, [From]);
 
     return (
       <>
         <div className="w-full pt-5 max-h-[90%] pb-4 px-10 bg-white">
           <div className="flex items-center gap-16">
-            <h1 className=" text-3xl font-semibold">Клиенты</h1>
+            <h1 className=" text-3xl font-semibold">{t("PageName1")}</h1>
             <div className="flex gap-5">
-              {Format ? (
-                <>
-                  <BiMenuAltRight className="text-[#22B5DC] text-xl -rotate-90 cursor-pointer" />
-                  <AiOutlineMenu
-                    onClick={() => {
-                      setFormat(false);
-                      localStorage.setItem("format", "false");
-                    }}
-                    className="text-black text-xl cursor-pointer"
-                  />
-                </>
-              ) : (
+        
                 <>
                   <BiMenuAltRight
                     onClick={() => {
                       setFormat(true);
+
+                      // setTimeout(() => {
+                      // }, 1000);
                       localStorage.setItem("format", "true");
                     }}
-                    className="text-black text-xl cursor-pointer -rotate-90"
+                    className="text-[#22B5DC] text-xl -rotate-90 cursor-pointer"
+                    style={Format ? {color: "#22B5DC"} : {color: "black"}}
                   />
-                  <AiOutlineMenu className="text-[#22B5DC] cursor-pointer text-xl" />
+                  <AiOutlineMenu
+                    onClick={() => {
+                      localStorage.setItem("format", "false");
+                      setFormat(false);
+
+                      // let dropaa = document.querySelector(".dropaa");
+                      // let tabl = document.querySelector(".tabl");
+
+                      // dropaa?.classList.add("righ");
+                      // setTimeout(() => {
+                      //   dropaa?.classList.remove("righ");
+                        
+                      //   setTimeout(() => {
+                      //     tabl?.classList.add("lef");
+                      //     setTimeout(() => {
+                      //       tabl?.classList.remove("lef");
+                      //     }, 500);
+                      //   }, 500);
+                      // }, 500);
+                    }}
+                    className="text-black text-xl cursor-pointer"
+                    style={Format ?{color: "black"}  : {color: "#22B5DC"}}
+                  />
                 </>
-              )}
+         
             </div>
           </div>
           <div className=" mt-4 flex justify-between items-center">
             <p className=" text-sm font-normal text-[#838383]">
-              Home / Level 2 / Level 3 / клиенты
+              Level 1 / Level 2 / Level 3
             </p>
             <div
               className="flex gap-7 items-center "
@@ -261,7 +278,7 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
             >
               <p className="text-sm font-normal text-[#838383]">
                 {subArrays[From].from + 1} -{" "}
-                {subArrays[From].to + subArrays[From].from} из{" "}
+                {subArrays[From].to + subArrays[From].from} {t("of")}{" "}
                 {CompanyClients.length}
               </p>
               <div className="flex">
@@ -275,7 +292,7 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
                   className="px-[11px] select-none  py-[9px] text-[#838383] border border-solid border-[#DEE2E6]"
                   style={Format ? { cursor: "default" } : { cursor: "pointer" }}
                 >
-                  Prev
+                  {t("prev")}
                 </p>
                 {subArrays.map((item, idx) => (
                   <div
@@ -303,7 +320,7 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
                   className="px-[11px]  select-none py-[9px] text-[#838383] border border-solid border-[#DEE2E6]"
                   style={Format ? { cursor: "default" } : { cursor: "pointer" }}
                 >
-                  Next
+                  {t("next")}
                 </p>
               </div>
             </div>
@@ -312,7 +329,7 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
 
         <DragDropContext onDragEnd={onDragEnd}>
           {Format ? (
-            <div className="grid grid-cols-6 h-[100vh] bg-[#F1F2F4] max-h-[90%] py-4 select-none  gap-4">
+            <div className="grid  grid-cols-6 h-[100vh] dropaa relative bg-[#F1F2F4] max-h-[90%] py-4 select-none  gap-4">
               {UniqArr.map((item: any, idx: any) => (
                 <Droppable key={item.id} droppableId={item.id}>
                   {(provided: any) => (
@@ -321,43 +338,43 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
                       pro={provided}
                       clients={clients}
                       arr={testArr}
+                      idx={idx}
                     />
                   )}
                 </Droppable>
               ))}
             </div>
           ) : (
-            <div className="flex w-full h-[100vh]  py-4 px-10 bg-[#F1F2F4]  flex-col overflow-x-scroll overflow-hidden">
+            <div className="flex w-full h-[100vh] relative tabl  py-4 px-10 bg-[#F1F2F4]  flex-col overflow-x-scroll overflow-hidden">
               <table className=" w-full ">
                 <thead className=" border-b-[1px] border-[#a4a4a4] border-solid">
                   <tr className="w-full">
                     <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start ">
-                      Клиент
+                      {t("Client")}
                     </th>
                     <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                      Статус
+                      {t("Status")}
                     </th>
                     <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                      Дата обращения
+                      {t("DateOfTheApplication")}
                     </th>
                     <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                      Цена
+                      {t("Price")}
                     </th>
                     <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                      Вылет
+                      {t("Departure")}
                     </th>
                     <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                      Страна посещения
-                    </th>
-
-                    <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                      Почта
+                      {t("CountryOfVisit")}
                     </th>
                     <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                      Отель
+                      {t("Mail")}
                     </th>
                     <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                      Филлиал
+                      {t("Hotel")}
+                    </th>
+                    <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
+                      {t("Fillial")}
                     </th>
                   </tr>
                 </thead>
@@ -396,4 +413,4 @@ const index: React.FC<indexProps> = ({ Company, clients }: any) => {
   }
 };
 
-export default index;
+export default withNamespaces()(index);

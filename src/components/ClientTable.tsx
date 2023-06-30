@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { withNamespaces } from "react-i18next";
 import { FiBook } from "react-icons/fi";
 
 interface ClientTableProps {
@@ -20,11 +21,11 @@ interface ClientTableProps {
   Phone: string;
   arr: Array<Object>;
   clients: Object;
-  priceForCompany: number
-priceForHotels:number
+  priceForCompany: number;
+  priceForHotels: number;
 }
 
-const ClientTable: React.FC<ClientTableProps> = ({
+const ClientTable = ({
   name,
   birthDate,
   status,
@@ -43,9 +44,9 @@ const ClientTable: React.FC<ClientTableProps> = ({
   arr,
   clients,
   priceForCompany,
-priceForHotels,
-}) => {
-
+  priceForHotels,
+  t,
+}: any) => {
   const router = useRouter();
   const clientKey =
     Object.keys(clients).reverse()[Object.values(arr).indexOf(item)];
@@ -68,6 +69,16 @@ priceForHotels,
 
     return age;
   }
+
+  const [locale, setlocale] = useState<any>("ru");
+  useEffect(() => {
+    if (localStorage.getItem("locale") == "uz") {
+      setlocale("en");
+    } else {
+      setlocale(localStorage.getItem("locale"));
+    }
+  }, []);
+
   function formatDate(dateString: string): string {
     const options: Intl.DateTimeFormatOptions = {
       day: "numeric",
@@ -75,7 +86,7 @@ priceForHotels,
       year: "numeric",
     };
     const date: Date = new Date(dateString);
-    return date.toLocaleDateString("ru-RU", options);
+    return date.toLocaleDateString(locale, options);
   }
 
   return (
@@ -90,7 +101,7 @@ priceForHotels,
         <div className="flex flex-col gap-[6px]">
           <p className=" text-[black] text-sm font-medium">{name}</p>
           <span className="text-sm font-medium text-[#909090]">
-            {calculateAge(birthDate.toString())} лет
+            {calculateAge(birthDate.toString())} {t("years")}
           </span>
         </div>
       </td>
@@ -111,7 +122,9 @@ priceForHotels,
       </td>
       <td className="min-w-[200px] py-6">
         <div className="flex flex-col gap-[6px]">
-          <p className=" text-[black] text-sm font-medium">{(priceForCompany + priceForHotels).toLocaleString()} сум</p>
+          <p className=" text-[black] text-sm font-medium">
+            {(priceForCompany + priceForHotels).toLocaleString()} {t("sum")}
+          </p>
         </div>
       </td>
       <td className="min-w-[200px] py-6">
@@ -150,4 +163,4 @@ priceForHotels,
   );
 };
 
-export default ClientTable;
+export default withNamespaces()(ClientTable);

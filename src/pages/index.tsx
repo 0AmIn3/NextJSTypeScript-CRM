@@ -7,6 +7,9 @@ import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
 
 const inter = Inter({ subsets: ["latin"] });
+
+
+
 export default function Home({ contacts }: { contacts: any }) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);

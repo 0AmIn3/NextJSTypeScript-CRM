@@ -2,6 +2,7 @@ import { pathClientsAPI, postClientsAPI } from "@/features/thunk";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { withNamespaces } from "react-i18next";
 
 import { SlArrowLeft } from "react-icons/sl";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +29,7 @@ export const getServerSideProps = async ({ query }: any) => {
     },
   };
 };
-const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
+const index = ({ Company, fillials, hotels, t }: any) => {
   const CompanyHotels = Object.values(hotels).filter(
     (item: any) => item.CompanyID === Company.id
   );
@@ -46,7 +47,6 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
   const router = useRouter();
   const prosent = 0.05;
   const watchDateGoFrom = watch("DateGoFrom");
-
 
   function getCurrentDate() {
     const today = new Date();
@@ -103,11 +103,11 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
             }}
             className="text-[#22B5DC] cursor-pointer text-xl"
           />
-          <h1 className=" text-3xl font-semibold">Добавить клиента</h1>
+          <h1 className=" text-3xl font-semibold">{t("HeaderAddclients")}</h1>
         </div>
         <div className=" mt-4 flex justify-between items-center">
           <p className=" text-sm font-normal text-[#838383]">
-            Home / Level 2 / Level 3 / Добавить клиента
+            Level 1 / Level 2 / Level 3
           </p>
         </div>
       </div>
@@ -121,7 +121,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
               <div className="flex gap-10 justify-between">
                 <div className="w-[50%]">
                   <label htmlFor="name" className="w-full">
-                    <p>ФИО</p>
+                    <p>{t("FullName")}</p>
                     <input
                       className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                       id="name"
@@ -131,7 +131,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                   </label>
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="age" className="w-1/2">
-                      <p>Дата рождения</p>
+                      <p>{t("DateofBirth")}</p>
                       <input
                         className="w-full outline-none select-none px-4 py-3 border border-[#D6D5D5] rounded"
                         id="age"
@@ -141,7 +141,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                       />
                     </label>
                     <label htmlFor="city" className="w-1/2">
-                      <p>Город проживания</p>
+                      <p>{t("CityofResidence")}</p>
                       <input
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="city"
@@ -152,7 +152,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                   </div>
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="Phone" className="w-1/2">
-                      <p>Телефон пациента</p>
+                      <p>{t("CustomerPhone")}</p>
                       <input
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="Phone"
@@ -169,7 +169,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                       />
                     </label>
                     <label htmlFor="email" className="w-1/2">
-                      <p>Email</p>
+                      <p>{t("Mail")}</p>
                       <input
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="email"
@@ -180,25 +180,29 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                     </label>
                   </div>
                   <label htmlFor="name" className="w-full">
-                    <p>Статус</p>
+                    <p>{t("Status")}</p>
                     <select
                       className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                       {...register("status")}
                       required
                     >
-                      <option value="Новое">Новое</option>
-                      <option value="Запрос отправлен">Запрос отправлен</option>
-                      <option value="В процессе">В процессе</option>
-                      <option value="Забронировал">Забронировал</option>
-                      <option value="Выкупил билеты">Выкупил билеты</option>
-                      <option value="Прибыл">Прибыл</option>
+                      <option value="Новое">{t("New")}</option>
+                      <option value="Запрос отправлен">
+                        {t("RequestSent")}
+                      </option>
+                      <option value="В процессе">{t("InProgress")}</option>
+                      <option value="Забронировал">{t("Reserved")}</option>
+                      <option value="Выкупил билеты">
+                        {t("PurchasedTickets")}
+                      </option>
+                      <option value="Прибыл">{t("Arrived")}</option>
                     </select>
                   </label>
                 </div>
                 <div className="w-[50%]">
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="Fillial" className="w-full">
-                      <p>Филиал</p>
+                      <p>{t("Fillial")}</p>
                       <select
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="Fillial"
@@ -213,7 +217,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                   </div>
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="GoFrom" className="w-1/2">
-                      <p>Вылет из города</p>
+                      <p>{t("DepartureFromCity")}</p>
                       <input
                         required
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
@@ -222,7 +226,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                       />
                     </label>
                     <label htmlFor="GoTo" className="w-1/2">
-                      <p>Город посещения</p>
+                      <p>{t("CityVisit")}</p>
                       <input
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="GoTo"
@@ -238,7 +242,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                   </div>
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="DateGoFrom" className="w-1/2">
-                      <p>Дата вылета</p>
+                      <p>{t("DateGoFrom")}</p>
                       <input
                         required
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
@@ -248,7 +252,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                       />
                     </label>
                     <label htmlFor="DateGoTo" className="w-1/2">
-                      <p>Дата прилета</p>
+                      <p>{t("DateGoTo")}</p>
                       <input
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="DateGoTo"
@@ -263,7 +267,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                   </div>
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="Hotel" className="w-full">
-                      <p>Отель</p>
+                      <p>{t("Hotel")}</p>
                       <select
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="Hotel"
@@ -276,7 +280,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                       </select>
                     </label>
                     <label htmlFor="days" className="w-full">
-                      <p>Количество дней</p>
+                      <p>{t("days")}</p>
                       <input
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="days"
@@ -287,8 +291,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                         })}
                       />
                     </label>
-                  {errors.days && <p>Введите число больше или равное 1</p>}
-
+                    {errors.days && <p>{t("err3")}</p>}
                   </div>
                 </div>
               </div>
@@ -299,7 +302,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                 <input
                   className="py-[15px] cursor-pointer text-white rounded bg-[#4992CC] px-[53px]"
                   type="submit"
-                  value="Сохранить"
+                  value={t("save")}
                 />
                 <input
                   onClick={() => {
@@ -307,7 +310,7 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
                   }}
                   className="py-[15px] w-fit cursor-pointer text-white rounded bg-[#EB5757] px-[53px]"
                   type="reset"
-                  value="Отменить"
+                  value={t("cancel")}
                 />
               </div>
             </form>
@@ -318,4 +321,4 @@ const index: React.FC<indexProps> = ({ Company, fillials, hotels }: any) => {
   );
 };
 
-export default index;
+export default withNamespaces()(index);

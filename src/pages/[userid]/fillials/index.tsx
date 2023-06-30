@@ -1,5 +1,6 @@
 import FillialTable from "@/components/FillialTable";
 import React, { useEffect, useState } from "react";
+import { withNamespaces } from "react-i18next";
 import { AiOutlineMenu } from "react-icons/ai";
 import { BiMenuAltRight } from "react-icons/bi";
 import { FiBook } from "react-icons/fi";
@@ -20,7 +21,7 @@ export const getServerSideProps = async ({ query }: any) => {
     props: { Company: data, fillials: fillialsData },
   };
 };
-const index: React.FC<indexProps> = ({ Company, fillials }: any) => {
+const index = ({ Company, fillials , t }: any) => {
   const CompanyFillials = Object.values(fillials).filter(
     (item: any) => item.CompanyID === Company.id
   );
@@ -49,16 +50,16 @@ const index: React.FC<indexProps> = ({ Company, fillials }: any) => {
       <>
         <div className="w-full   pt-5 pb-4 px-10 bg-white">
           <div className="flex items-center gap-16">
-            <h1 className=" text-3xl font-semibold">Филиалы</h1>
+            <h1 className=" text-3xl font-semibold">{t("PageName3")}</h1>
           </div>
           <div className=" mt-4 flex justify-between items-center">
             <p className=" text-sm font-normal text-[#838383]">
-              Home / Level 2 / Level 3 / Филиалы
+              Level 1 / Level 2 / Level 3
             </p>
           </div>
         </div>
         <div className="flex w-full h-[100vh]  py-4 px-10 bg-[#F1F2F4]  justify-center">
-          <p className=" mt-[200px] text-3xl font-semibold">Добавьте Филлиал</p>
+          <p className=" mt-[200px] text-3xl font-semibold">{t("HeaderAddfillialsAq")}</p>
         </div>
       </>
     );
@@ -70,16 +71,16 @@ const index: React.FC<indexProps> = ({ Company, fillials }: any) => {
       <>
         <div className="w-full  pt-5 pb-4 px-10 bg-white">
           <div className="flex items-center gap-16">
-            <h1 className=" text-3xl font-semibold">Филиалы</h1>
+            <h1 className=" text-3xl font-semibold">{t("PageName3")}</h1>
           </div>
           <div className=" mt-4 flex justify-between items-center">
             <p className=" text-sm font-normal text-[#838383]">
-              Home / Level 2 / Level 3 / Филиалы
+            Level 1 / Level 2 / Level 3 
             </p>
             <div className="flex gap-7 items-center">
               <p className="text-sm font-normal text-[#838383]">
                 {subArrays[From].from + 1} -{" "}
-                {subArrays[From].to + subArrays[From].from} из {testArr.length}
+                {subArrays[From].to + subArrays[From].from} {t("of")} {testArr.length}
               </p>
               <div className="flex">
                 <p
@@ -91,7 +92,7 @@ const index: React.FC<indexProps> = ({ Company, fillials }: any) => {
                   }}
                   className="px-[11px] select-none cursor-pointer py-[9px] text-[#838383] border border-solid border-[#DEE2E6]"
                 >
-                  Prev
+                  {t("prev")}
                 </p>
                 {subArrays.map((item, idx) => (
                   <div
@@ -115,7 +116,7 @@ const index: React.FC<indexProps> = ({ Company, fillials }: any) => {
                   }}
                   className="px-[11px] cursor-pointer select-none py-[9px] text-[#838383] border border-solid border-[#DEE2E6]"
                 >
-                  Next
+                   {t("next")}  
                 </p>
               </div>
             </div>
@@ -126,13 +127,13 @@ const index: React.FC<indexProps> = ({ Company, fillials }: any) => {
             <thead className=" border-b-[1px] border-[#a4a4a4] border-solid">
               <tr className="w-full">
                 <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start ">
-                  Отели
+                  {t("PageName3")}
                 </th>
                 <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                  Город
+                  {t("City")}
                 </th>
                 <th className="min-w-[200px] pt-5 pb-8 text-sm font-medium text-[#909090] text-start">
-                  Номер
+                  {t("Number")}
                 </th>
               </tr>
             </thead>
@@ -156,4 +157,4 @@ const index: React.FC<indexProps> = ({ Company, fillials }: any) => {
   }
 };
 
-export default index;
+export default withNamespaces()(index);

@@ -2,6 +2,7 @@ import { pathFilialsAPI } from "@/features/thunk";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { withNamespaces } from "react-i18next";
 
 import { SlArrowLeft } from "react-icons/sl";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,7 +25,7 @@ export const getServerSideProps = async ({ query }: any) => {
     },
   };
 };
-const index: React.FC<indexProps> = ({ Company, filial }: any) => {
+const index = ({ Company, filial , t}: any) => {
 
   const logfilial = useSelector((state: any) => state.hotels.status);
 
@@ -81,7 +82,7 @@ const index: React.FC<indexProps> = ({ Company, filial }: any) => {
               <div className="flex gap-10 w-1/2 justify-between">
                 <div className="w-[100%]">
                   <label htmlFor="name" className="w-full">
-                    <p>Наименование Отеля</p>
+                    <p>{t("FillialName")}</p>
                     <input
                       className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                       id="name"
@@ -93,7 +94,7 @@ const index: React.FC<indexProps> = ({ Company, filial }: any) => {
                   <div className="flex gap-1 mt-3">
                
                     <label htmlFor="city" className="w-full">
-                      <p>Город</p>
+                      <p>{t("City")}</p>
                       <input
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="city"
@@ -105,7 +106,7 @@ const index: React.FC<indexProps> = ({ Company, filial }: any) => {
                   </div>
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="Phone" className="w-full">
-                      <p>Телефон отеля</p>
+                      <p>{t("FillialPhone")}</p>
                       <input
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="Phone"
@@ -131,7 +132,7 @@ const index: React.FC<indexProps> = ({ Company, filial }: any) => {
                 <input
                   className="py-[15px] cursor-pointer text-white rounded bg-[#4992CC] px-[53px]"
                   type="submit"
-                  value="Сохранить"
+                  value={t("save")}
                 />
                 <input
                   onClick={() => {
@@ -139,7 +140,7 @@ const index: React.FC<indexProps> = ({ Company, filial }: any) => {
                   }}
                   className="py-[15px] w-fit cursor-pointer text-white rounded bg-[#EB5757] px-[53px]"
                   type="reset"
-                  value="Отменить"
+                  value={t("cancel")}
                 />
               </div>
             </form>
@@ -150,4 +151,4 @@ const index: React.FC<indexProps> = ({ Company, filial }: any) => {
   );
 };
 
-export default index;
+export default withNamespaces()(index);

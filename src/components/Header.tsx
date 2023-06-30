@@ -1,54 +1,91 @@
+import i18n from "@/pages/i18n";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { withNamespaces } from "react-i18next";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { FiSettings, FiBell } from "react-icons/fi";
 
 interface HeaderProps {
-  ChangeAnim: boolean;
+  ChangeAnim: any;
   setChangeAnim: any;
+  t: any;
+  title: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ ChangeAnim, setChangeAnim }) => {
+const Header = ({ ChangeAnim, setChangeAnim, t }: any) => {
   const router = useRouter();
-
+  const changeLanguage = (lng: any) => {
+    localStorage.setItem("locale", lng);
+    i18n.changeLanguage(lng);
+  };
   const [Name, setName] = useState<string>("клиента");
   useEffect(() => {
     if (router.pathname.split("/")[2] == "fillials") {
-      setName("филиал");
+      setName("fillials");
     } else if (router.pathname.split("/")[2] == "hotels") {
-      setName("отель");
+      setName("hotels");
     } else if (router.pathname.split("/")[2] == "clients") {
-      
-      setName("клиента");
+      setName("clients");
     }
   });
-  // {ChangeAnim ? "headerState1 flex gap-8 justify-end  pt-[35px] px-[38px]" : "headerState2 flex gap-8 justify-end  pt-[35px] px-[38px]"}
+
+
   return (
-    <div className={ChangeAnim ? "headerState1 flex gap-8 justify-end  items-center pt-[20px] px-[38px]" : "headerState2 flex gap-8 justify-end items-center   pt-[20px] px-[38px]"}>
-      <img className={ChangeAnim ? "hidden" : " absolute left-[38px]  "} src="/img/logo2.svg" alt="" />
-      <div className="flex gap-3  cursor-pointer">
-        <AiOutlinePlusCircle style={{ color: "#909090", fontSize: 24 }} />{" "}
-        <span
-          onClick={() => {
-            router.push(
-              `/${router.query.userid}/${router.pathname.split("/")[2]}/add${
-                router.pathname.split("/")[2]
-              }`
-            );
-          }}
-          className="text-[#909090]"
-        >
-          Добавить {Name}
-        </span>
-      </div>
-      <div className="flex gap-3">
+    <div
+      className={
+        ChangeAnim
+          ? "headerState1 flex gap-8 justify-end  items-center pt-[20px] px-[38px]"
+          : "headerState2 flex gap-8 justify-end items-center   pt-[20px] px-[38px]"
+      }
+    >
+      <img
+        className={ChangeAnim ? "hidden" : " absolute left-[38px]  "}
+        src="/img/logo2.svg"
+        alt=""
+      />
+      {router.pathname.split("/")[2] !== "blogs" ? (
+        <div className="flex gap-3  cursor-pointer">
+          <AiOutlinePlusCircle style={{ color: "#909090", fontSize: 24 }} />{" "}
+          <span
+            onClick={() => {
+              router.push(
+                `/${router.query.userid}/${router.pathname.split("/")[2]}/add${
+                  router.pathname.split("/")[2]
+                }`
+              );
+            }}
+            className="text-[#909090]"
+          >
+            {t(`HeaderAdd${Name}`)}
+          </span>
+        </div>
+      ) : null}
+
+      <div
+        onClick={() => {
+          router.push(`/${router.query.userid}/blogs/addblog`);
+        }}
+        className="flex gap-3 cursor-pointer"
+      >
         <FiSettings style={{ color: "#909090", fontSize: 24 }} />{" "}
-        <span className="text-[#909090]">Создать Блог</span>
+        <span className="text-[#909090]">{t(`HeaderAddBlog`)} </span>
       </div>
       <div className="flex gap-2 items-center">
-        <FiBell style={{ color: "#909090", fontSize: 24 }} />
+        <FiBell
+          onClick={() => {
+            router.push(`/${router.query.userid}/blogs`);
+          }}
+          style={{ color: "#909090", fontSize: 24 }}
+          className=" cursor-pointer"
+        />
         <div className="stick"></div>
-        <select className=" text-[#909090]" name="" id="">
+        <select
+          onChange={(e) => changeLanguage(e.target.value)}
+          className=" text-[#909090]"
+          defaultValue={localStorage.getItem("locale")?.toString()}
+          name=""
+          id=""
+        >
           <option value="ru">RU</option>
           <option value="uz">UZ</option>
           <option value="en">EN</option>
@@ -59,4 +96,4 @@ const Header: React.FC<HeaderProps> = ({ ChangeAnim, setChangeAnim }) => {
   );
 };
 
-export default Header;
+export default withNamespaces()(Header);

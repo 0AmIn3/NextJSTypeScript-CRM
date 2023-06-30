@@ -1,0 +1,74 @@
+{
+  "asideMenu": "Меню",
+
+  "Client": "Клиент",
+  "Hotel": "Отель",
+  "HotelName": "Наименование Отеля",
+  "HotelPhone": "Телефон Отеля",
+
+  "Fillial": "Филлиал",
+  "FillialName": "Наименование Филлиала",
+  "FillialPhone": "Телефон Филлиала",
+
+  "PageName1": "Клиенты",
+  "PageName2": "Отели",
+  "PageName3": "Филлиалы",
+
+  "City": "Город",
+  "Number": "Номер",
+  "NightPrice": "Цена за ночь",
+
+  "HeaderAddclients": "Добавить Клиента",
+  "HeaderAddclientsAq": "Добавьте Клиента",
+  "HeaderAddhotels": "Добавить Отель",
+  "HeaderAddhotelsAq": "Добавьте Отель",
+  "HeaderAddfillials": "Добавить Филлиал",
+  "HeaderAddfillialsAq": "Добавьте Филлиал",
+
+  "next": "След",
+  "prev": "Пред",
+  "of": "из",
+
+  "Status": "Статус",
+  "DateOfTheApplication": "Дата обращения",
+  "Price": "Цена",
+  "Departure": "Вылет",
+  "CountryOfVisit": "Страна посещения",
+  "Mail": "Почта",
+
+  "FullName": "ФИО",
+
+  "New": "Новое",
+  "RequestSent": "Запрос отправлен",
+  "InProgress": "В процессе",
+  "Reserved": "Забронировал",
+  "PurchasedTickets": "Выкупил билеты",
+  "Arrived": "Прибыл",
+  "DepartureFromCity": "Вылет из города",
+  "CityVisit": "Город посещения",
+  "DateofBirth": "Дата рождения",
+  "CityofResidence": "Город проживания",
+  "CustomerPhone": "Телефон клиента",
+  "DateGoFrom": "Дата вылета",
+  "DateGoTo": "Дата прилета",
+
+  "days": "Количество дней",
+  "save": "Сохранить",
+  "cancel": "Отменить",
+  "err1": "Город посещения не может совпадать с городом вылета",
+  "err2": "Дата прилета не может быть меньше даты вылета",
+  "err3": "Введите число больше или равное 1",
+
+  "HeaderAddBlog": "Создать Блог",
+  "years": "лет",
+  "GoFrom": "вылет",
+  "GoTo": "прилет",
+  "GoFromFR": "Вылет клиента c",
+  "GoToFR": "Прилет клиента в",
+  "sum": "сум",
+  "BlogLog": "Заголовок Блога",
+  "Title": "Содержимое Блога",
+  "addblog": "Добавьте Блог . . . ?",
+
+  "OurBlogs": "Ваши блоги"
+}

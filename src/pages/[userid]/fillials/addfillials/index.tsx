@@ -1,7 +1,8 @@
-import {  postFilialsAPI } from "@/features/thunk";
+import { postFilialsAPI } from "@/features/thunk";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { withNamespaces } from "react-i18next";
 
 import { SlArrowLeft } from "react-icons/sl";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,9 +18,8 @@ export const getServerSideProps = async ({ query }: any) => {
     props: { Company: data },
   };
 };
-const index: React.FC<indexProps> = ({ Company }: any) => {
-
-  const logHotel = useSelector((state : any) => state.hotels.status);
+const index = ({ Company, t }: any) => {
+  const logHotel = useSelector((state: any) => state.hotels.status);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -51,11 +51,11 @@ const index: React.FC<indexProps> = ({ Company }: any) => {
             }}
             className="text-[#22B5DC] cursor-pointer text-xl"
           />
-          <h1 className=" text-3xl font-semibold">Довавить филиала</h1>
+          <h1 className=" text-3xl font-semibold">{t("HeaderAddfillials")}</h1>
         </div>
         <div className=" mt-4 flex justify-between items-center">
           <p className=" text-sm font-normal text-[#838383]">
-            Home / Level 2 / Level 3 / Довавить филиала
+            Level 1 / Level 2 / Level 3
           </p>
         </div>
       </div>
@@ -69,7 +69,7 @@ const index: React.FC<indexProps> = ({ Company }: any) => {
               <div className="flex w-1/2 gap-10 justify-between">
                 <div className="w-[100%]">
                   <label htmlFor="name" className="w-full">
-                    <p>Наименование отеля</p>
+                    <p>{t("FillialName")}</p>
                     <input
                       className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                       id="name"
@@ -78,9 +78,8 @@ const index: React.FC<indexProps> = ({ Company }: any) => {
                     />
                   </label>
                   <div className="flex gap-1 mt-3 w-full">
-                
                     <label htmlFor="city" className="w-full">
-                      <p>Город</p>
+                      <p>{t("City")}</p>
                       <input
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="city"
@@ -91,7 +90,7 @@ const index: React.FC<indexProps> = ({ Company }: any) => {
                   </div>
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="Phone" className="w-full">
-                      <p>Телефон Филиала</p>
+                      <p>{t("FillialPhone")}</p>
                       <input
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="Phone"
@@ -116,7 +115,7 @@ const index: React.FC<indexProps> = ({ Company }: any) => {
                 <input
                   className="py-[15px] cursor-pointer text-white rounded bg-[#4992CC] px-[53px]"
                   type="submit"
-                  value="Сохранить"
+                  value={t("save")}
                 />
                 <input
                   onClick={() => {
@@ -124,7 +123,7 @@ const index: React.FC<indexProps> = ({ Company }: any) => {
                   }}
                   className="py-[15px] w-fit cursor-pointer text-white rounded bg-[#EB5757] px-[53px]"
                   type="reset"
-                  value="Отменить"
+                  value={t("cancel")}
                 />
               </div>
             </form>
@@ -135,4 +134,4 @@ const index: React.FC<indexProps> = ({ Company }: any) => {
   );
 };
 
-export default index;
+export default withNamespaces()(index);

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { withNamespaces } from "react-i18next";
 import { AiOutlineMenu } from "react-icons/ai";
 import { FiHome } from "react-icons/fi";
 import { LuFilter } from "react-icons/lu";
@@ -9,7 +10,7 @@ interface AsideProps {
   setChangeAnim: any;
 }
 
-const Aside: React.FC<AsideProps> = ({ ChangeAnim, setChangeAnim }) => {
+const Aside = ({ ChangeAnim, setChangeAnim , t}: any) => {
   const { query } = useRouter();
   const [Anime, setAnime] = useState<string>("State1");
 
@@ -54,7 +55,7 @@ const Aside: React.FC<AsideProps> = ({ ChangeAnim, setChangeAnim }) => {
               style={{ color: "white", fontSize: 24 }}
             />{" "}
             <span className={ChangeAnim ? "font-semibold text-lg" : "hidden"}>
-              Меню
+              {t("asideMenu")}
             </span>
           </div>
           <div
@@ -65,13 +66,13 @@ const Aside: React.FC<AsideProps> = ({ ChangeAnim, setChangeAnim }) => {
             }
           >
             <Link href={`/${query.userid}/clients`}>
-              <p>Клиенты</p>
+              <p>{t("PageName1")}</p>
             </Link>
             <Link href={`/${query.userid}/hotels`}>
-              <p>Отели</p>
+              <p>{t("PageName2")}</p>
             </Link>
             <Link href={`/${query.userid}/fillials`}>
-              <p>Филиалы</p>
+              <p>{t("PageName3")}</p>
             </Link>
           </div>
           <div
@@ -103,4 +104,5 @@ const Aside: React.FC<AsideProps> = ({ ChangeAnim, setChangeAnim }) => {
   );
 };
 
-export default Aside;
+export default withNamespaces()(Aside);
+

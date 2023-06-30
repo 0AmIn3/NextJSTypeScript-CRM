@@ -13,19 +13,23 @@
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
+    "atomic-spinner": "^1.2.5",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
     "framer-motion": "^10.12.17",
+    "i18next": "^23.2.3",
     "lodash": "^4.17.21",
     "next": "13.4.4",
+    "nodemailer": "^6.9.3",
     "postcss": "8.4.23",
     "react": "18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-cookie": "^4.1.1",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.44.3",
+    "react-i18next": "^9.0.10",
     "react-icons": "^4.9.0",
     "react-redux": "^8.0.7",
     "sass": "^1.62.1",
@@ -35,6 +39,7 @@
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
+    "@types/nodemailer": "^6.4.8",
     "@types/react-beautiful-dnd": "^13.1.4"
   }
 }

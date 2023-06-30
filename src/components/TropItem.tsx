@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
+import { withNamespaces } from "react-i18next";
 import { GiAirplaneArrival, GiAirplaneDeparture } from "react-icons/gi";
 interface ClientTableProps {
   id: string;
@@ -27,7 +28,7 @@ interface TropItemProps {
   snap?: any;
 }
 
-const TropItem: React.FC<TropItemProps> = ({ item, arr, clients, prov , snap }) => {
+const TropItem = ({ item, arr, clients, prov , snap , t } :any | TropItemProps) => {
   const router = useRouter();
   const clientKey =
     Object.keys(clients).reverse()[Object.values(arr).indexOf(item)];
@@ -74,30 +75,30 @@ const TropItem: React.FC<TropItemProps> = ({ item, arr, clients, prov , snap }) 
       >
         <h1 className=" text-sm font-medium text-[#333333]">{item.name}</h1>
         <p className=" mt-2 text-xs font-medium text-[#909090]">
-          {calculateAge(item.age)} лет, {item.city}, {item.Fillial},{" "}
+          {calculateAge(item.age)} {t("years")}, {item.city}, {item.Fillial},{" "}
           {item.Hotel}
         </p>
         <div className=" mt-4 flex flex-col gap-5">
           <div className="flex flex-col gap-2">
             <h2 className="flex justify-between items-center text-[#909090] text-xs">
               <span className="flex gap-2 items-center">
-                <GiAirplaneDeparture className=" text-xl" /> вылет
+                <GiAirplaneDeparture className=" text-xl" /> {t("GoFrom")}
               </span>{" "}
               {formatDate(item.DateGoFrom)}
             </h2>
             <p className=" text-right text-xs font-medium">
-              Вылет клиента c {item.GoFrom}
+              {t("GoFromFR")} {item.GoFrom}
             </p>
           </div>
           <div className="flex flex-col gap-2">
             <h2 className="flex justify-between items-center text-[#909090] text-xs">
               <span className="flex gap-2 items-center">
-                <GiAirplaneArrival className=" text-xl" /> прилет
+                <GiAirplaneArrival className=" text-xl" /> {t("GoTo")}
               </span>
               {formatDate(item.DateGoTo)}
             </h2>
             <p className=" text-right text-xs font-medium">
-              Прилет клиента в {item.GoTo}
+              {t("GoToFR")} {item.GoTo}
             </p>
           </div>
         </div>
@@ -106,4 +107,4 @@ const TropItem: React.FC<TropItemProps> = ({ item, arr, clients, prov , snap }) 
   );
 };
 
-export default TropItem;
+export default withNamespaces()(TropItem);

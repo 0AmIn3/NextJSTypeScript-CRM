@@ -2,11 +2,12 @@ import { pathClientsAPI, pathHotelsAPI, postHotelsAPI } from "@/features/thunk";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { withNamespaces } from "react-i18next";
 
 import { SlArrowLeft } from "react-icons/sl";
 import { useDispatch, useSelector } from "react-redux";
 interface indexProps {}
-export const getServerSideProps = async ({ query } : any) => {
+export const getServerSideProps = async ({ query }: any) => {
   const response = await fetch(
     `https://srm-nextjs-default-rtdb.europe-west1.firebasedatabase.app/Admin/${query.userid}.json`
   );
@@ -17,9 +18,8 @@ export const getServerSideProps = async ({ query } : any) => {
     props: { Company: data },
   };
 };
-const index: React.FC<indexProps> = ({ Company } : any) => {
-
-  const logHotel = useSelector((state : any) => state.hotels.status);
+const index = ({ Company, t }: any) => {
+  const logHotel = useSelector((state: any) => state.hotels.status);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -35,7 +35,7 @@ const index: React.FC<indexProps> = ({ Company } : any) => {
       postHotelsAPI({
         CompanyID: Company.id,
         ...data,
-      } )
+      })
     );
     setTimeout(() => {
       router.push(`/${router.query.userid}/hotels`);
@@ -51,11 +51,11 @@ const index: React.FC<indexProps> = ({ Company } : any) => {
             }}
             className="text-[#22B5DC] cursor-pointer text-xl"
           />
-          <h1 className=" text-3xl font-semibold">Довавить отель</h1>
+          <h1 className=" text-3xl font-semibold">{t("HeaderAddhotels")}</h1>
         </div>
         <div className=" mt-4 flex justify-between items-center">
           <p className=" text-sm font-normal text-[#838383]">
-            Home / Level 2 / Level 3 / Довавить отель
+            Level 1 / Level 2 / Level 3 
           </p>
         </div>
       </div>
@@ -69,7 +69,7 @@ const index: React.FC<indexProps> = ({ Company } : any) => {
               <div className="flex gap-10 justify-between">
                 <div className="w-[100%]">
                   <label htmlFor="name" className="w-full">
-                    <p>Наименование отеля</p>
+                    <p>{t("HotelName")}</p>
                     <input
                       className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                       id="name"
@@ -79,7 +79,7 @@ const index: React.FC<indexProps> = ({ Company } : any) => {
                   </label>
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="age" className="w-1/2">
-                      <p>Цена за ночь</p>
+                      <p>{t("NightPrice")}</p>
                       <input
                         className="w-full outline-none select-none px-4 py-3 border border-[#D6D5D5] rounded"
                         id="age"
@@ -88,7 +88,7 @@ const index: React.FC<indexProps> = ({ Company } : any) => {
                       />
                     </label>
                     <label htmlFor="city" className="w-1/2">
-                      <p>Город</p>
+                      <p>{t("City")}</p>
                       <input
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="city"
@@ -99,7 +99,7 @@ const index: React.FC<indexProps> = ({ Company } : any) => {
                   </div>
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="Phone" className="w-1/2">
-                      <p>Телефон отеля</p>
+                      <p>{t("HotelPhone")}</p>
                       <input
                         className="w-full px-4 py-3 border border-[#D6D5D5] rounded"
                         id="Phone"
@@ -124,7 +124,7 @@ const index: React.FC<indexProps> = ({ Company } : any) => {
                 <input
                   className="py-[15px] cursor-pointer text-white rounded bg-[#4992CC] px-[53px]"
                   type="submit"
-                  value="Сохранить"
+                  value={t("save")}
                 />
                 <input
                   onClick={() => {
@@ -132,7 +132,7 @@ const index: React.FC<indexProps> = ({ Company } : any) => {
                   }}
                   className="py-[15px] w-fit cursor-pointer text-white rounded bg-[#EB5757] px-[53px]"
                   type="reset"
-                  value="Отменить"
+                  value={t("cancel")}
                 />
               </div>
             </form>
@@ -143,4 +143,4 @@ const index: React.FC<indexProps> = ({ Company } : any) => {
   );
 };
 
-export default index;
+export default withNamespaces()(index);
