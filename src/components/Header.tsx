@@ -83,8 +83,8 @@ const Header = ({ ChangeAnim, setChangeAnim, t }: any) => {
             className=" cursor-pointer"
           />
           {views > 0 ? (
-            <span className=" w-4 h-4 text-center absolute bg-[#ff0000bb] rounded-full text-xs text-white p-1  top-[-10px] right-[-5px] flex items-center justify-center">
-              <p>{views}</p>
+            <span className=" w-4 h-4 text-center absolute bg-[#ff0000bb] rounded-full text-[10px] text-white p-1  top-[-10px] right-[-5px] flex items-center justify-center">
+              <p>{views <= 9 ? views : '9+'}</p>
             </span>
           ) : null}
         </div>

@@ -95,7 +95,7 @@ const index = ({ Company, t }: any) => {
     localStorage.setItem('blogs' , blogs.length)
     if (logCompany) {
         setTimeout(()=>{
-            router.push(`/${router.query.userid}/clients`);
+            router.push(`/${router.query.userid}/blogs`);
         },300)
       }
   };
