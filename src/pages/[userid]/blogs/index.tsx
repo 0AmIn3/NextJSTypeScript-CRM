@@ -1,6 +1,7 @@
 import BlogItem from "@/components/BlogItem";
 import React, { useEffect, useState } from "react";
 import { withNamespaces } from "react-i18next";
+import { useRouter } from "next/router";
 
 export const getServerSideProps = async ({ query }: any) => {
   const response = await fetch(
@@ -16,24 +17,28 @@ export const getServerSideProps = async ({ query }: any) => {
 const index = ({ Company, t }: any) => {
   const [Blogs, setBlogs] = useState<any>([]);
   const [locale, setlocale] = useState<any>("ru");
+  const router = useRouter();
+
   useEffect(() => {
     if (localStorage.getItem("locale") == "uz") {
       setlocale("en");
     } else {
       setlocale(localStorage.getItem("locale"));
     }
+    
 
     if(!Company?.blogs){
       setBlogs([])
     }else{
       setBlogs([...Company?.blogs].reverse())
+      localStorage.setItem(`${router.query.userid}/blogView` , [...Company?.blogs].length.toString() )
     }
-  });
-
+   
+    
+  }, []);
   if (Blogs.length === 0) {
     return (
       <>
-  
         <div className="flex w-full h-[100vh]   py-4 px-10 bg-[#F1F2F4]  justify-center">
           <p className=" mt-[200px] text-3xl font-semibold">
             {t("addblog")}

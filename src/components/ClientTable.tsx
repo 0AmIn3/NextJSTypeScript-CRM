@@ -72,11 +72,14 @@ const ClientTable = ({
 
   const [locale, setlocale] = useState<any>("ru");
   useEffect(() => {
-    if (localStorage.getItem("locale") == "uz") {
-      setlocale("en");
-    } else {
-      setlocale(localStorage.getItem("locale"));
+    if(localStorage.getItem("locale") !== undefined){
+      if (localStorage.getItem("locale") == "uz") {
+        setlocale("en");
+      } else {
+        setlocale(localStorage.getItem("locale"));
+      }
     }
+  
   }, []);
 
   function formatDate(dateString: string): string {

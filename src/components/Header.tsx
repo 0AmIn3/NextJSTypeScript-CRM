@@ -19,6 +19,8 @@ const Header = ({ ChangeAnim, setChangeAnim, t }: any) => {
     i18n.changeLanguage(lng);
   };
   const [Name, setName] = useState<string>("клиента");
+
+  const [views, setviews] = useState<number>(0);
   useEffect(() => {
     if (router.pathname.split("/")[2] == "fillials") {
       setName("fillials");
@@ -27,8 +29,11 @@ const Header = ({ ChangeAnim, setChangeAnim, t }: any) => {
     } else if (router.pathname.split("/")[2] == "clients") {
       setName("clients");
     }
+    setviews(
+      Number(localStorage.getItem(`blogs`)) -
+        Number(localStorage.getItem(`${router.query.userid}/blogView`))
+    );
   });
-
 
   return (
     <div
@@ -44,20 +49,18 @@ const Header = ({ ChangeAnim, setChangeAnim, t }: any) => {
         alt=""
       />
       {router.pathname.split("/")[2] !== "blogs" ? (
-        <div className="flex gap-3  cursor-pointer">
+        <div
+          onClick={() => {
+            router.push(
+              `/${router.query.userid}/${router.pathname.split("/")[2]}/add${
+                router.pathname.split("/")[2]
+              }`
+            );
+          }}
+          className="flex gap-3  cursor-pointer"
+        >
           <AiOutlinePlusCircle style={{ color: "#909090", fontSize: 24 }} />{" "}
-          <span
-            onClick={() => {
-              router.push(
-                `/${router.query.userid}/${router.pathname.split("/")[2]}/add${
-                  router.pathname.split("/")[2]
-                }`
-              );
-            }}
-            className="text-[#909090]"
-          >
-            {t(`HeaderAdd${Name}`)}
-          </span>
+          <span className="text-[#909090]">{t(`HeaderAdd${Name}`)}</span>
         </div>
       ) : null}
 
@@ -71,13 +74,20 @@ const Header = ({ ChangeAnim, setChangeAnim, t }: any) => {
         <span className="text-[#909090]">{t(`HeaderAddBlog`)} </span>
       </div>
       <div className="flex gap-2 items-center">
-        <FiBell
-          onClick={() => {
-            router.push(`/${router.query.userid}/blogs`);
-          }}
-          style={{ color: "#909090", fontSize: 24 }}
-          className=" cursor-pointer"
-        />
+        <div className=" relative">
+          <FiBell
+            onClick={() => {
+              router.push(`/${router.query.userid}/blogs`);
+            }}
+            style={{ color: "#909090", fontSize: 24 }}
+            className=" cursor-pointer"
+          />
+          {views > 0 ? (
+            <span className=" w-4 h-4 text-center absolute bg-[#ff0000bb] rounded-full text-xs text-white p-1  top-[-10px] right-[-5px] flex items-center justify-center">
+              <p>{views}</p>
+            </span>
+          ) : null}
+        </div>
         <div className="stick"></div>
         <select
           onChange={(e) => changeLanguage(e.target.value)}

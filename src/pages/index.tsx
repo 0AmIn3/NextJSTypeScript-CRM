@@ -32,7 +32,7 @@ export default function Home({ contacts }: { contacts: any }) {
     ];
     const CompanyKey =
       Object.keys(contacts)[Object.values(contacts).indexOf(user[0])];
-
+    
     if (user.length > 0) {
       setLoading(false);
       setError(false);
@@ -56,7 +56,7 @@ export default function Home({ contacts }: { contacts: any }) {
           router.push(CompanyKey + "/clients");
         });
     }
-  };k
+  };
 
   return (
     <>

@@ -37,6 +37,23 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (router.query.userid) {
+      if (!localStorage.getItem(`${router.query.userid}/blogView`)) {
+        localStorage.setItem(`${router.query.userid}/blogView`, "0");
+      }
+      if (Object.keys(company).length > 0 && company[`${router.query.userid}`].blogs ) {
+        localStorage.setItem(`blogs`, company[`${router.query.userid}`].blogs.length);
+      }
+    }
+    
+    if(!localStorage.getItem("locale")){
+      localStorage.setItem("locale" , "ru")
+    }
+
+
+  });
+
+  useEffect(() => {
     if (!company.length) {
       dispatch(getCompanyAPI());
     }
@@ -58,7 +75,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <>
-      {loading ? <Loading/> : (
+      {loading ? (
+        <Loading />
+      ) : (
         <div className={bodyStyle}>
           {chnageLayout ? (
             <>
@@ -67,13 +86,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </>
           ) : null}
 
-          {/* {loading ? ( 
-        <div className=" bg-black w-full h-full" >Loading...</div> 
-      ) : ( */}
           <main className={ChangeAnim ? "mainState1" : "mainState2"}>
             {children}
           </main>
-          {/* // )} */}
         </div>
       )}
     </>

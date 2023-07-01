@@ -11,6 +11,7 @@ import { withNamespaces } from "react-i18next";
 import { SlArrowLeft } from "react-icons/sl";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+
 interface indexProps {}
 export const getServerSideProps = async ({ query }: any) => {
   const response = await fetch(
@@ -57,7 +58,7 @@ const index = ({ Company, t }: any) => {
   const onSubmit = (data: any) => {
     console.log(data);
 
-    let blogs = [];
+    let blogs : any = [];
 
     if (!Company.blogs) {
       blogs = [
@@ -91,12 +92,12 @@ const index = ({ Company, t }: any) => {
         },
       })
     );
+    localStorage.setItem('blogs' , blogs.length)
     if (logCompany) {
         setTimeout(()=>{
-            router.push(`/${router.query.userid}/blogs`);
+            router.push(`/${router.query.userid}/clients`);
         },300)
       }
-    // console.log(obj);
   };
   
   return (

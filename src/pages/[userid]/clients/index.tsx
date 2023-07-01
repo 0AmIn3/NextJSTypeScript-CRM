@@ -228,44 +228,42 @@ const index = ({ Company, clients, t }: any) => {
           <div className="flex items-center gap-16">
             <h1 className=" text-3xl font-semibold">{t("PageName1")}</h1>
             <div className="flex gap-5">
-        
-                <>
-                  <BiMenuAltRight
-                    onClick={() => {
-                      setFormat(true);
+              <>
+                <BiMenuAltRight
+                  onClick={() => {
+                    setFormat(true);
 
-                      // setTimeout(() => {
-                      // }, 1000);
-                      localStorage.setItem("format", "true");
-                    }}
-                    className="text-[#22B5DC] text-xl -rotate-90 cursor-pointer"
-                    style={Format ? {color: "#22B5DC"} : {color: "black"}}
-                  />
-                  <AiOutlineMenu
-                    onClick={() => {
-                      localStorage.setItem("format", "false");
-                      setFormat(false);
+                    // setTimeout(() => {
+                    // }, 1000);
+                    localStorage.setItem("format", "true");
+                  }}
+                  className="text-[#22B5DC] text-xl -rotate-90 cursor-pointer"
+                  style={Format ? { color: "#22B5DC" } : { color: "black" }}
+                />
+                <AiOutlineMenu
+                  onClick={() => {
+                    localStorage.setItem("format", "false");
+                    setFormat(false);
 
-                      // let dropaa = document.querySelector(".dropaa");
-                      // let tabl = document.querySelector(".tabl");
+                    // let dropaa = document.querySelector(".dropaa");
+                    // let tabl = document.querySelector(".tabl");
 
-                      // dropaa?.classList.add("righ");
-                      // setTimeout(() => {
-                      //   dropaa?.classList.remove("righ");
-                        
-                      //   setTimeout(() => {
-                      //     tabl?.classList.add("lef");
-                      //     setTimeout(() => {
-                      //       tabl?.classList.remove("lef");
-                      //     }, 500);
-                      //   }, 500);
-                      // }, 500);
-                    }}
-                    className="text-black text-xl cursor-pointer"
-                    style={Format ?{color: "black"}  : {color: "#22B5DC"}}
-                  />
-                </>
-         
+                    // dropaa?.classList.add("righ");
+                    // setTimeout(() => {
+                    //   dropaa?.classList.remove("righ");
+
+                    //   setTimeout(() => {
+                    //     tabl?.classList.add("lef");
+                    //     setTimeout(() => {
+                    //       tabl?.classList.remove("lef");
+                    //     }, 500);
+                    //   }, 500);
+                    // }, 500);
+                  }}
+                  className="text-black text-xl cursor-pointer"
+                  style={Format ? { color: "black" } : { color: "#22B5DC" }}
+                />
+              </>
             </div>
           </div>
           <div className=" mt-4 flex justify-between items-center">
