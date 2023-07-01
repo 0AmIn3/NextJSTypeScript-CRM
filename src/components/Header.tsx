@@ -1,4 +1,4 @@
-import i18n from "@/pages/i18n";
+import i18n from "@/utils/i18n";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { withNamespaces } from "react-i18next";

@@ -2,7 +2,7 @@ import Aside from "@/components/Aside";
 import Header from "@/components/Header";
 import Loading from "@/components/Loading";
 import { getClientsAPI, getCompanyAPI } from "@/features/thunk";
-import i18n from "@/pages/i18n";
+import i18n from "@/utils/i18n";
 import dynamic from "next/dynamic";
 import { Router, useRouter } from "next/router";
 import React, { useEffect, useState } from "react";

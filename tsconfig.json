@@ -34,7 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "src/components/Column.jsx", "src/pages/[userid]/test/index.tsx", "src/pages/i18n.tsx"  ],
+, "src/components/Column.jsx", "src/pages/[userid]/test/index.tsx", "src/utils/i18n.tsx"  ],
   "exclude": [
     "node_modules"
   ]

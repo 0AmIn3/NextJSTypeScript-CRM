@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { store } from "../app/store";
 import { NextComponentType, NextPageContext } from "next";
 import { ReactNode } from "react";
-import './i18n';
+import '../utils/i18n';
 interface MyAppProps extends AppProps {
   Component: NextComponentType<NextPageContext, any, any> & {
     getLayout?: (page: ReactNode) => ReactNode;
