@@ -127,7 +127,7 @@ const index = ({ Company, clients, fillials, hotels, t }: any) => {
         </div>
         <div className=" mt-4 flex justify-between items-center">
           <p className=" text-sm font-normal text-[#838383]">
-            Level 1 / Level 2 / Level 3 / {clients.name}
+            {/* Level 1 / Level 2 / Level 3 / {clients.name} */}
           </p>
         </div>
       </div>

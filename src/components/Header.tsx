@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { withNamespaces } from "react-i18next";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { FiSettings, FiBell } from "react-icons/fi";
+import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 
 interface HeaderProps {
   ChangeAnim: any;
@@ -48,6 +49,7 @@ const Header = ({ ChangeAnim, setChangeAnim, t }: any) => {
         src="/img/logo2.svg"
         alt=""
       />
+    
       {router.pathname.split("/")[2] !== "blogs" ? (
         <div
           onClick={() => {
@@ -84,7 +86,7 @@ const Header = ({ ChangeAnim, setChangeAnim, t }: any) => {
           />
           {views > 0 ? (
             <span className=" w-4 h-4 text-center absolute bg-[#ff0000bb] rounded-full text-[10px] text-white p-1  top-[-10px] right-[-5px] flex items-center justify-center">
-              <p>{views <= 9 ? views : '9+'}</p>
+              <p>{views <= 9 ? views : "9+"}</p>
             </span>
           ) : null}
         </div>

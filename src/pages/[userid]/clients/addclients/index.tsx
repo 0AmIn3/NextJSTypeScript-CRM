@@ -107,7 +107,7 @@ const index = ({ Company, fillials, hotels, t }: any) => {
         </div>
         <div className=" mt-4 flex justify-between items-center">
           <p className=" text-sm font-normal text-[#838383]">
-            Level 1 / Level 2 / Level 3
+            {/* Level 1 / Level 2 / Level 3 */}
           </p>
         </div>
       </div>
@@ -210,7 +210,7 @@ const index = ({ Company, fillials, hotels, t }: any) => {
                         {...register("Fillial")}
                       >
                         {CompanyFillials.map((item: any, idx: number) => (
-                          <option value={item.name}>{item.name}</option>
+                          <option key={idx} value={item.name}>{item.name}</option>
                         ))}
                       </select>
                     </label>
@@ -275,7 +275,7 @@ const index = ({ Company, fillials, hotels, t }: any) => {
                         required
                       >
                         {CompanyHotels.map((item: any, idx: number) => (
-                          <option value={item.name}>{item.name}</option>
+                          <option key={idx} value={item.name}>{item.name}</option>
                         ))}
                       </select>
                     </label>

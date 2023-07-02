@@ -66,7 +66,7 @@ const index = ({ Company, hotel, t }: any) => {
         </div>
         <div className=" mt-4 flex justify-between items-center">
           <p className=" text-sm font-normal text-[#838383]">
-            Level 1 / Level 2 / Level 3 / {hotel.name}
+            {/* Level 1 / Level 2 / Level 3 / {hotel.name} */}
           </p>
         </div>
       </div>

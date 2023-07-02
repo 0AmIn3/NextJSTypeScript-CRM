@@ -66,6 +66,10 @@
   "BlogLog": "Blog Title",
   "Title": "Blog Content",
   "sum": "sum",
-  "OurBlogs":  "Your blogs",
-  "addblog": "Add Blog . . . ?"
+  "OurBlogs": "Your blogs",
+  "addblog": "Add Blog . . . ?",
+  "More": "More",
+  "addFile": "Add Photo",
+  "addAbz": "Add Paragraph",
+  "delAbz": "Delete Paragraph"
 }

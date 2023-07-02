@@ -67,5 +67,9 @@
   "BlogLog": "Blog sarlavhasi",
   "Title": "Blogning tarkibi",
   "OurBlogs": "Sizning bloglaringiz",
-  "addblog": "Blogni qo'shing . . . ?"
+  "addblog": "Blogni qo'shing . . . ?",
+  "More": "Batafsil",
+  "addFile": "Rasm qo'shish",
+  "addAbz": "Abzas qo'shish",
+  "delAbz": "Abzasni o'chirish"
 }
