@@ -42,7 +42,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       }
 
       if (Object.keys(company).length > 0) {
-        if (!company[`${router.query.userid}`].blogs) {
+        if (!company[`${router.query.userid}`]?.blogs) {
           localStorage.setItem(`blogs`, "0");
         } else {
           localStorage.setItem(
@@ -61,7 +61,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
     if (router.pathname !== "/" && Object.keys(company).length > 0) {
       let token = `${router.query.userid}/${
-        company[`${router.query.userid}`].email
+        company[`${router.query.userid}`]?.email
       }`;
       if (localStorage.getItem("user") !== token) {
         router.push("/");

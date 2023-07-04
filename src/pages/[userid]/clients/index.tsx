@@ -26,13 +26,16 @@ export const getServerSideProps = async ({ query }: any) => {
   );
   const data = await response.json();
   const usersData = await response2.json();
-
+    console.log(data);
+    
   return {
     props: { Company: data, clients: usersData },
   };
 };
 
 const index = ({ Company, clients, t }: any) => {
+  // console.log(Company);
+  
   const dispatch = useDispatch();
   const router = useRouter();
   const CompanyClients = Object.values(clients).filter(
