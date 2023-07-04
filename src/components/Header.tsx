@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { withNamespaces } from "react-i18next";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { FiSettings, FiBell } from "react-icons/fi";
-import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+import { ImExit } from "react-icons/im";
 
 interface HeaderProps {
   ChangeAnim: any;
@@ -98,7 +98,7 @@ const Header = ({ ChangeAnim, setChangeAnim, t }: any) => {
         <div className="stick"></div>
         <select
           onChange={(e) => changeLanguage(e.target.value)}
-          className=" text-[#909090]"
+          className=" text-[#909090] cursor-pointer"
           defaultValue={localStorage.getItem("locale")?.toString()}
           name=""
           id=""
@@ -108,6 +108,9 @@ const Header = ({ ChangeAnim, setChangeAnim, t }: any) => {
           <option value="en">EN</option>
         </select>
         <div className="stick"></div>
+        <ImExit onClick={()=>{
+          router.push('/')
+        }} className=" cursor-pointer" style={{ color: "#909090", fontSize: 24  }}/>
       </div>
     </div>
   );
