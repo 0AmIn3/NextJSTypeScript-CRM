@@ -65,7 +65,7 @@ const index = ({ Company, hotels, t }: any) => {
           </div>
         </div>
         <div className="flex w-full h-[100vh]   py-4 px-10 bg-[#F1F2F4]  justify-center">
-          <p className=" mt-[200px] text-3xl font-semibold">Добавьте Отель</p>
+          <p className=" mt-[200px] text-3xl font-semibold">{t("HeaderAddhotelsAq")}</p>
         </div>
       </>
     );

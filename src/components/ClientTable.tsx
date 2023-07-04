@@ -1,3 +1,4 @@
+import { formatDate } from "@/utils/functions";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { withNamespaces } from "react-i18next";
@@ -82,15 +83,7 @@ const ClientTable = ({
   
   }, []);
 
-  function formatDate(dateString: string): string {
-    const options: Intl.DateTimeFormatOptions = {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    };
-    const date: Date = new Date(dateString);
-    return date.toLocaleDateString(locale, options);
-  }
+
 
   return (
     <tr
@@ -110,16 +103,16 @@ const ClientTable = ({
       </td>
       <td className="min-w-[200px] py-4">
         <div className="flex flex-col gap-[6px]">
-          <p className=" text-[black] text-sm font-medium">{status}</p>
+          <p className=" text-[black] text-sm font-medium">{t(`${status}`)}</p>
           <span className="text-sm font-medium text-[#909090]">
-            {formatDate(ChangeStatus)}
+            {formatDate(ChangeStatus , locale)}
           </span>
         </div>
       </td>
       <td className="min-w-[200px] py-6">
         <div className="flex flex-col gap-[6px]">
           <p className=" text-[black] text-sm font-medium">
-            {formatDate(DateOfApplication)}
+            {formatDate(DateOfApplication , locale)}
           </p>
         </div>
       </td>
@@ -134,7 +127,7 @@ const ClientTable = ({
         <div className="flex flex-col gap-[6px]">
           <p className=" text-[black] text-sm font-medium">{GoFrom}</p>
           <span className="text-sm font-medium text-[#909090]">
-            {formatDate(DateGoFrom)}
+            {formatDate(DateGoFrom , locale)}
           </span>
         </div>
       </td>
@@ -142,7 +135,7 @@ const ClientTable = ({
         <div className="flex flex-col gap-[6px]">
           <p className=" text-[black] text-sm font-medium">{GoTo}</p>
           <span className="text-sm font-medium text-[#909090]">
-            {formatDate(DateGoTo)}
+            {formatDate(DateGoTo , locale)}
           </span>
         </div>
       </td>

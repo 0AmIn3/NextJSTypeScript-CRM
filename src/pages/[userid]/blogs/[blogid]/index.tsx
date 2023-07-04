@@ -1,3 +1,4 @@
+import { formatDate } from "@/utils/functions";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { SlArrowLeft } from "react-icons/sl";
@@ -23,16 +24,7 @@ const index = ({ Company }: any) => {
   );
   const [locale, setlocale] = useState<any>("ru");
 
-  function formatDate(dateString: string): string {
-    const options: Intl.DateTimeFormatOptions = {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    };
-    const date: Date = new Date(dateString);
 
-    return date.toLocaleDateString(locale, options);
-  }
   useEffect(() => {
     if (localStorage.getItem("locale") == "uz") {
       setlocale("en");
@@ -58,7 +50,7 @@ const index = ({ Company }: any) => {
               </div>
               <div className=" flex flex-col items-end opacity-50">
                 <p>{Blog.time}</p>
-                <p>{formatDate(Blog.date)}</p>
+                <p>{formatDate(Blog.date , locale)}</p>
               </div>
             </div>
             <div className="w-[100%] max-w-[800px] mt-5 mx-auto">

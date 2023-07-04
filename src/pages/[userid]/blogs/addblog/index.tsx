@@ -3,6 +3,7 @@ import {
   pathCompanyAPI,
   postClientsAPI,
 } from "@/features/thunk";
+import { getCurrentDate, getCurrentTime } from "@/utils/functions";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -36,24 +37,6 @@ const index = ({ Company, t }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const logCompany = useSelector((state: any) => state.clients.status);
-  const getCurrentDate = () => {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    let month: number | string = currentDate.getMonth() + 1;
-    month = month < 10 ? `0${month}` : month;
-    let day: number | string = currentDate.getDate();
-    day = day < 10 ? `0${day}` : day;
-    return `${year}-${month}-${day}`;
-  };
-
-  const getCurrentTime = () => {
-    const currentDate = new Date();
-    let hours: number | string = currentDate.getHours();
-    hours = hours < 10 ? `0${hours}` : hours;
-    let minutes: number | string = currentDate.getMinutes();
-    minutes = minutes < 10 ? `0${minutes}` : minutes;
-    return `${hours}:${minutes}`;
-  };
 
   const [StateBlog, setStateBlog] = useState<any>({
     id: uuidv4(),
@@ -159,7 +142,6 @@ const index = ({ Company, t }: any) => {
                         className="w-full mt-4 px-4 py-3 border border-[#D6D5D5] rounded"
                         id="name"
                         required
-                        
                         onInput={(e: any) => {
                           setStateBlog({
                             ...StateBlog,
@@ -177,7 +159,6 @@ const index = ({ Company, t }: any) => {
                         lang="en"
                         accept="image/*"
                         onChange={handleFileChange}
-                        
                       />
                     </label>
 

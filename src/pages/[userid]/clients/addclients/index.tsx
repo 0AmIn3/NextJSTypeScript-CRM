@@ -1,4 +1,5 @@
 import { pathClientsAPI, postClientsAPI } from "@/features/thunk";
+import { getCurrentDate } from "@/utils/functions";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -48,14 +49,7 @@ const index = ({ Company, fillials, hotels, t }: any) => {
   const prosent = 0.05;
   const watchDateGoFrom = watch("DateGoFrom");
 
-  function getCurrentDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
 
-    return `${year}-${month}-${day}`;
-  }
   function addDaysToDate(startDate: string, daysToAdd: number) {
     const date = new Date(startDate);
     date.setDate(date.getDate() + Number(daysToAdd));
@@ -186,16 +180,16 @@ const index = ({ Company, fillials, hotels, t }: any) => {
                       {...register("status")}
                       required
                     >
-                      <option value="Новое">{t("New")}</option>
-                      <option value="Запрос отправлен">
+                      <option value="New">{t("New")}</option>
+                      <option value="RequestSent">
                         {t("RequestSent")}
                       </option>
-                      <option value="В процессе">{t("InProgress")}</option>
-                      <option value="Забронировал">{t("Reserved")}</option>
-                      <option value="Выкупил билеты">
+                      <option value="InProgress">{t("InProgress")}</option>
+                      <option value="Reserved">{t("Reserved")}</option>
+                      <option value="PurchasedTickets">
                         {t("PurchasedTickets")}
                       </option>
-                      <option value="Прибыл">{t("Arrived")}</option>
+                      <option value="Arrived">{t("Arrived")}</option>
                     </select>
                   </label>
                 </div>

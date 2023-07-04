@@ -1,3 +1,4 @@
+import { calculateAge } from "@/utils/functions";
 import { useRouter } from "next/router";
 import React from "react";
 import { withNamespaces } from "react-i18next";
@@ -33,25 +34,7 @@ const TropItem = ({ item, arr, clients, prov , snap , t } :any | TropItemProps) 
   const clientKey =
     Object.keys(clients).reverse()[Object.values(arr).indexOf(item)];
 
-  function calculateAge(birthDate: string) {
-    const birthDateObj = new Date(birthDate);
-    const now = new Date();
 
-    let age = now.getFullYear() - birthDateObj.getFullYear();
-
-    // Проверяем, прошел ли уже день рождения в текущем году
-    const hasPassedBirthday =
-      now.getMonth() > birthDateObj.getMonth() ||
-      (now.getMonth() === birthDateObj.getMonth() &&
-        now.getDate() >= birthDateObj.getDate());
-
-    // Уменьшаем возраст, если день рождения еще не наступил
-    if (!hasPassedBirthday) {
-      age--;
-    }
-
-    return age;
-  }
   function formatDate(dateString: string) {
     const date = new Date(dateString);
     const day = date.getDate();

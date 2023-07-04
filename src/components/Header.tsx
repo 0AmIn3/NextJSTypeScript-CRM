@@ -15,10 +15,15 @@ interface HeaderProps {
 
 const Header = ({ ChangeAnim, setChangeAnim, t }: any) => {
   const router = useRouter();
+  const [locale, setlocale] = useState<any>("ru");
+
   const changeLanguage = (lng: any) => {
     localStorage.setItem("locale", lng);
     i18n.changeLanguage(lng);
+    setlocale(lng)
   };
+  // console.log(locale);
+  
   const [Name, setName] = useState<string>("клиента");
 
   const [views, setviews] = useState<number>(0);

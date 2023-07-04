@@ -11,6 +11,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { pathClientsAPI, pathCompanyAPI } from "@/features/thunk";
 import { useDispatch } from "react-redux";
 import { withNamespaces } from "react-i18next";
+import { getCurrentDate } from "@/utils/functions";
 interface indexProps {
   Company: object;
   clients: Array<object>;
@@ -50,14 +51,8 @@ const index = ({ Company, clients, t }: any) => {
   }, []);
   const [UniqStatus, setUniqStatus] = useState<any>(CompanyClients || []);
   const [UniqArr, setUniqArr] = useState<any>([]);
-  function getCurrentDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
+console.log(router);
 
-    return `${year}-${month}-${day}`;
-  }
   interface SortedItem {
     name: string;
     arr: typeof UniqStatus;
@@ -65,12 +60,12 @@ const index = ({ Company, clients, t }: any) => {
 
   const sortDataByStatus = (data: typeof UniqStatus): SortedItem[] => {
     const statuses = [
-      "Новое",
-      "Запрос отправлен",
-      "В процессе",
-      "Забронировал",
-      "Выкупил билеты",
-      "Прибыл",
+      "New",
+      "RequestSent",
+      "InProgress",
+      "Reserved",
+      "PurchasedTickets",
+      "Arrived",
     ];
 
     const sortedData: SortedItem[] = statuses.map((status) => ({
@@ -81,29 +76,7 @@ const index = ({ Company, clients, t }: any) => {
 
     return sortedData;
   };
-  function FixHistory(arr: any) {
-    let cop = [...arr];
-    for (let i of cop) {
-      if (!i.arr) i.arr = [];
-    }
-    return cop;
-  }
-  function isDatePassed(dateString: string) {
-    // Разбираем строку даты и создаем объект Date
-    const date = new Date(dateString);
 
-    // Получаем текущую дату
-    const currentDate = new Date();
-
-    // Сравниваем дату с текущей датой
-    if (date < currentDate) {
-      // Дата уже прошла
-      return true;
-    } else {
-      // Дата еще не прошла
-      return false;
-    }
-  }
   for (let i = 0; i < testArr.length; i += 4) {
     subArrays.push({
       from: i,
@@ -192,9 +165,7 @@ const index = ({ Company, clients, t }: any) => {
             <h1 className=" text-3xl font-semibold">{t("PageName1")}</h1>
           </div>
           <div className=" mt-4 flex justify-between items-center">
-            <p className=" text-sm font-normal text-[#838383]">
-              {/* Level 1 / Level 2 / Level 3 */}
-            </p>
+            <p className=" text-sm font-normal text-[#838383]"></p>
           </div>
         </div>
         <div className="flex w-full h-[100vh]   py-4 px-10 bg-[#F1F2F4]  justify-center">
@@ -206,19 +177,7 @@ const index = ({ Company, clients, t }: any) => {
     );
   } else {
     useEffect(() => {
-      // let cop = [...UniqStatus]
-      // for(let i of cop){
-      //   if(isDatePassed(i.arriveDay)){
-      //     i.status = 'Прибыл'
-      //   }
-      // }
-
       changeActive(From);
-      // if (!Company.DrangHistory) {
-      //   setUniqArr(sortDataByStatus(UniqStatus));
-      // } else {
-      //   setUniqArr(FixHistory(Company.DrangHistory));
-      // }
       setUniqArr(sortDataByStatus(UniqStatus));
     }, [From]);
 
@@ -244,21 +203,6 @@ const index = ({ Company, clients, t }: any) => {
                   onClick={() => {
                     localStorage.setItem("format", "false");
                     setFormat(false);
-
-                    // let dropaa = document.querySelector(".dropaa");
-                    // let tabl = document.querySelector(".tabl");
-
-                    // dropaa?.classList.add("righ");
-                    // setTimeout(() => {
-                    //   dropaa?.classList.remove("righ");
-
-                    //   setTimeout(() => {
-                    //     tabl?.classList.add("lef");
-                    //     setTimeout(() => {
-                    //       tabl?.classList.remove("lef");
-                    //     }, 500);
-                    //   }, 500);
-                    // }, 500);
                   }}
                   className="text-black text-xl cursor-pointer"
                   style={Format ? { color: "black" } : { color: "#22B5DC" }}

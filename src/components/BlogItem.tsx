@@ -1,3 +1,4 @@
+import { formatDate } from "@/utils/functions";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -6,19 +7,8 @@ import { withNamespaces } from "react-i18next";
 interface BlogItemProps {}
 
 const BlogItem = ({ name, title, date, time, locale, item, t }: any) => {
-  // console.log(item);
   const router = useRouter();
-  function formatDate(dateString: string): string {
-    const options: Intl.DateTimeFormatOptions = {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    };
-    const date: Date = new Date(dateString);
 
-    return date.toLocaleDateString(locale, options);
-  }
-  // console.log(`/${router.query.userid}/blogs/${item.id}`);
 
   return (
     <div className="  blogitem p-5 max-h-[480px] flex flex-col justify-between gap-6 rounded-2xl">
@@ -46,7 +36,7 @@ const BlogItem = ({ name, title, date, time, locale, item, t }: any) => {
         </Link>
         <div className=" flex flex-col items-end opacity-50">
           <p>{time}</p>
-          <p>{formatDate(date)}</p>
+          <p>{formatDate(date , locale)}</p>
         </div>
       </div>
     </div>

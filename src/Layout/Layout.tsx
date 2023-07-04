@@ -41,19 +41,46 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       if (!localStorage.getItem(`${router.query.userid}/blogView`)) {
         localStorage.setItem(`${router.query.userid}/blogView`, "0");
       }
-      if (Object.keys(company).length > 0 && company[`${router.query.userid}`].blogs ) {
-        localStorage.setItem(`blogs`, company[`${router.query.userid}`].blogs.length);
+      if (
+        Object.keys(company).length > 0 &&
+        company[`${router.query.userid}`].blogs
+      ) {
+        localStorage.setItem(
+          `blogs`,
+          company[`${router.query.userid}`].blogs.length
+        );
+      } else if (
+        Object.keys(company).length > 0 &&
+        !company[`${router.query.userid}`].blogs
+      ) {
+        localStorage.setItem(
+          `blogs`,
+          '0'
+        );
       }
     }
-    
-    if(!localStorage.getItem("locale")){
-      localStorage.setItem("locale" , "ru")
+
+    if (!localStorage.getItem("locale")) {
+      localStorage.setItem("locale", "ru");
     }
+    // router.push({pathname: router.pathname, query: router.query}, router.asPath, {locale});
 
+// console.log(router);
 
+    if (router.pathname !== "/" && Object.keys(company).length > 0) {
+      let token = `${router.query.userid}/${
+        company[`${router.query.userid}`].email
+      }`;
+      if (localStorage.getItem("user") !== token) {
+        router.push("/");
+      }
+    }
   });
 
   useEffect(() => {
+    console.log(company);
+
+    i18n.changeLanguage(localStorage.getItem("locale")?.toString());
     if (!company.length) {
       dispatch(getCompanyAPI());
     }
@@ -61,14 +88,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     if (!clients.length) {
       dispatch(getClientsAPI());
     }
-
-    i18n.changeLanguage(localStorage.getItem("locale")?.toString());
-
     if (router.pathname == "/") {
       setchnageLayout(false);
       setbodyStyle("h-[100vh] w-full bg-black");
     } else {
       setchnageLayout(true);
+
       setbodyStyle("h-[100vh] w-full bg-white");
     }
   }, [router.pathname]);

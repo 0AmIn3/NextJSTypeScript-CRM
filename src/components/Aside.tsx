@@ -14,7 +14,6 @@ const Aside = ({ ChangeAnim, setChangeAnim , t}: any) => {
   const { query } = useRouter();
   const [Anime, setAnime] = useState<string>("State1");
 
-  useEffect(() => {}, []);
   return (
     <aside className={ChangeAnim ? "State1" : "State2"}>
       <div

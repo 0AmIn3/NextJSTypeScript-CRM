@@ -1,4 +1,5 @@
 import { pathClientsAPI } from "@/features/thunk";
+import { getCurrentDate } from "@/utils/functions";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -54,14 +55,7 @@ const index = ({ Company, clients, fillials, hotels, t }: any) => {
   const watchDateGoFrom = watch("DateGoFrom");
   const watchDateGoTo = watch("DateGoTo");
   const prosent = 0.05;
-  function getCurrentDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
 
-    return `${year}-${month}-${day}`;
-  }
   const validateDays = (value: string | number) => {
     return +value >= 1;
   };
@@ -213,16 +207,14 @@ const index = ({ Company, clients, fillials, hotels, t }: any) => {
                       required
                       id="status"
                     >
-                      <option value="Новое">{t("New")}</option>
-                      <option value="Запрос отправлен">
-                        {t("RequestSent")}
-                      </option>
-                      <option value="В процессе">{t("InProgress")}</option>
-                      <option value="Забронировал">{t("Reserved")}</option>
-                      <option value="Выкупил билеты">
+                      <option value="New">{t("New")}</option>
+                      <option value="RequestSent">{t("RequestSent")}</option>
+                      <option value="InProgress">{t("InProgress")}</option>
+                      <option value="Reserved">{t("Reserved")}</option>
+                      <option value="PurchasedTickets">
                         {t("PurchasedTickets")}
                       </option>
-                      <option value="Прибыл">{t("Arrived")}</option>
+                      <option value="Arrived">{t("Arrived")}</option>
                     </select>
                   </label>
                 </div>
@@ -270,9 +262,7 @@ const index = ({ Company, clients, fillials, hotels, t }: any) => {
                       />
                     </label>
                   </div>
-                  {errors.GoTo && (
-                    <p>{t("err1")}</p>
-                  )}
+                  {errors.GoTo && <p>{t("err1")}</p>}
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="DateGoFrom" className="w-1/2">
                       <p>{t("DateGoFrom")}</p>
@@ -300,9 +290,7 @@ const index = ({ Company, clients, fillials, hotels, t }: any) => {
                       />
                     </label>
                   </div>
-                  {errors.DateGoTo && (
-                    <p>{t("err2")}</p>
-                  )}
+                  {errors.DateGoTo && <p>{t("err2")}</p>}
 
                   <div className="flex gap-1 mt-3">
                     <label htmlFor="Hotel" className="w-full">
