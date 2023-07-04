@@ -50,7 +50,6 @@ const index = ({ Company, t }: any) => {
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     const imageUrl = URL.createObjectURL(file);
-    console.log(imageUrl);
     setStateBlog({
       ...StateBlog,
       img: imageUrl,
@@ -76,7 +75,6 @@ const index = ({ Company, t }: any) => {
     });
   };
   const onSubmit = () => {
-    // console.log(data);
 
     let blogs: any = [];
     let cop = {
@@ -89,7 +87,6 @@ const index = ({ Company, t }: any) => {
     } else {
       blogs = [...Company.blogs, cop];
     }
-    console.log(blogs);
 
     dispatch(
       pathCompanyAPI({
@@ -147,7 +144,6 @@ const index = ({ Company, t }: any) => {
                             ...StateBlog,
                             name: e.target.value,
                           });
-                          // console.log(e.target.value);
                         }}
                       />
                     </label>

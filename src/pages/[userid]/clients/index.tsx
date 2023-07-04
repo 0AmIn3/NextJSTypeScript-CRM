@@ -51,7 +51,6 @@ const index = ({ Company, clients, t }: any) => {
   }, []);
   const [UniqStatus, setUniqStatus] = useState<any>(CompanyClients || []);
   const [UniqArr, setUniqArr] = useState<any>([]);
-console.log(router);
 
   interface SortedItem {
     name: string;

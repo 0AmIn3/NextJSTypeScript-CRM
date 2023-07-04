@@ -22,7 +22,6 @@ const Header = ({ ChangeAnim, setChangeAnim, t }: any) => {
     i18n.changeLanguage(lng);
     setlocale(lng)
   };
-  // console.log(locale);
   
   const [Name, setName] = useState<string>("клиента");
 

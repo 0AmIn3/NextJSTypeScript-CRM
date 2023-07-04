@@ -43,4 +43,5 @@
     "@types/nodemailer": "^6.4.8",
     "@types/react-beautiful-dnd": "^13.1.4"
   }
+
 }

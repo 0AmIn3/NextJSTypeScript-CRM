@@ -8,8 +8,6 @@ import { v4 as uuidv4 } from "uuid";
 
 const inter = Inter({ subsets: ["latin"] });
 
-
-
 export default function Home({ contacts }: { contacts: any }) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,17 +30,20 @@ export default function Home({ contacts }: { contacts: any }) {
     ];
     const CompanyKey =
       Object.keys(contacts)[Object.values(contacts).indexOf(user[0])];
-    
+
     if (user.length > 0) {
       setLoading(false);
       setError(false);
       localStorage.setItem("user", `${CompanyKey}/${email}`);
-      router.push(CompanyKey + "/clients");
+      setTimeout(() => {
+        router.push(CompanyKey + "/clients");
+      }, 1000);
     } else {
       let newUser = {
         id: uuidv4(),
         email,
         password,
+        blogs: ['']
       };
       axios
         .post(
@@ -50,10 +51,13 @@ export default function Home({ contacts }: { contacts: any }) {
           newUser
         )
         .then((res) => {
+          
           setLoading(false);
           setError(false);
-          localStorage.setItem("user", `${CompanyKey}/${email}`);
-          router.push(CompanyKey + "/clients");
+          localStorage.setItem("user", `${res.data.name}/${email}`);
+          setTimeout(() => {
+            router.push(res.data.name + "/clients");
+          }, 1000);
         });
     }
   };
@@ -74,9 +78,7 @@ export default function Home({ contacts }: { contacts: any }) {
           </center>
           <form onSubmit={handleSubmit(onSubmit)}>
             <label className=" mt-6" htmlFor="email">
-              <h1 className=" text-xs font-semibold text-[#101010]">
-                PHONE NUMBER
-              </h1>
+              <h1 className=" text-xs font-semibold text-[#101010]">Email</h1>
               <input
                 id="email"
                 className=""
@@ -87,7 +89,7 @@ export default function Home({ contacts }: { contacts: any }) {
 
             <label className=" mt-6" htmlFor="password">
               <h1 className=" text-xs font-semibold text-[#101010]">
-                PHONE NUMBER
+                Password
               </h1>
               <input
                 id="password"

@@ -3,7 +3,6 @@ import Header from "@/components/Header";
 import Loading from "@/components/Loading";
 import { getClientsAPI, getCompanyAPI } from "@/features/thunk";
 import i18n from "@/utils/i18n";
-import dynamic from "next/dynamic";
 import { Router, useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,31 +40,24 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       if (!localStorage.getItem(`${router.query.userid}/blogView`)) {
         localStorage.setItem(`${router.query.userid}/blogView`, "0");
       }
-      if (
-        Object.keys(company).length > 0 &&
-        company[`${router.query.userid}`].blogs
-      ) {
-        localStorage.setItem(
-          `blogs`,
-          company[`${router.query.userid}`].blogs.length
-        );
-      } else if (
-        Object.keys(company).length > 0 &&
-        !company[`${router.query.userid}`].blogs
-      ) {
-        localStorage.setItem(
-          `blogs`,
-          '0'
-        );
+
+      if (Object.keys(company).length > 0) {
+        if (!company[`${router.query.userid}`].blogs) {
+          localStorage.setItem(`blogs`, "0");
+        } else {
+          localStorage.setItem(
+            `blogs`,
+            company[`${router.query.userid}`].blogs.length
+          );
+        }
       }
+
+
     }
 
     if (!localStorage.getItem("locale")) {
       localStorage.setItem("locale", "ru");
     }
-    // router.push({pathname: router.pathname, query: router.query}, router.asPath, {locale});
-
-// console.log(router);
 
     if (router.pathname !== "/" && Object.keys(company).length > 0) {
       let token = `${router.query.userid}/${
@@ -78,13 +70,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   });
 
   useEffect(() => {
-    console.log(company);
-
     i18n.changeLanguage(localStorage.getItem("locale")?.toString());
     if (!company.length) {
       dispatch(getCompanyAPI());
     }
-
     if (!clients.length) {
       dispatch(getClientsAPI());
     }
